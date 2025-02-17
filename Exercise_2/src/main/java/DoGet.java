@@ -6,12 +6,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/hello")
-public class doGet extends HttpServlet {
+@WebServlet("/doGet") // Định nghĩa URL cho servlet này
+public class DoGet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        throws ServletException, IOException {
+        response.setContentType("text/html");
         PrintWriter out = response.getWriter();
-        out.println("<h1>Xin chào</h1>");
+        out.println("<h1>Chào mừng đến với Servlet!</h1>");
     }
 }
