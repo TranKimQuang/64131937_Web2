@@ -3,6 +3,10 @@
 	<name>Servers</name>
 	<comment></comment>
 	<projects>
+		<project>Exercise_1</project>
+		<project>Exercise_2</project>
+		<project>HelloJSP</project>
+		<project>testjsp</project>
 	</projects>
 	<buildSpec>
 	</buildSpec>
