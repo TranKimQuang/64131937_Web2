@@ -27,6 +27,6 @@
 		</property>
 	</bean>
 	<!-- Cấu hình các package chứa các contronller -->
-	<context:component-scan base-package="jp.ivs.controller" />
+	<context:component-scan base-package="quangtkcontroller" />
  
 </beans>
