@@ -1,10 +1,11 @@
-<htmL>
-	<HEAD>
-		<title>
-			Welcome
-		</title>
-	</HEAD>
-	<body>
-		How can i help you?
-	</body>
-</htmL>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Trang Chào</title>
+</head>
+<body>
+    <h1>Xin chào từ Spring Boot!</h1>
+    <p th:text="${tb}"></p> <!-- Hiển thị thông báo từ Controller -->
+</body>
+</html>
