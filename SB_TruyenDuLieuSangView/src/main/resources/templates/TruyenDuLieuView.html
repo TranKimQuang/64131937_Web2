@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thông tin cá nhân</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f0f8ff, #cce7ff);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        td.label {
+            font-weight: bold;
+            width: 40%;
+            color: #555;
+        }
+
+        td.value {
+            color: #000;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Thông Tin Cá Nhân</h1>
+        <table>
+            <tr>
+                <td class="label">Họ và tên:</td>
+                <td class="value" th:text="${hovaten}"></td>
+            </tr>
+            <tr>
+                <td class="label">Lớp:</td>
+                <td class="value" th:text="${lop}"></td>
+            </tr>
+            <tr>
+                <td class="label">Số điện thoại:</td>
+                <td class="value" th:text="${SDT}"></td>
+            </tr>
+            <tr>
+                <td class="label">Căn cước định danh:</td>
+                <td class="value" th:text="${cccd}"></td>
+            </tr>
+            <tr>
+                <td class="label">Khoá học:</td>
+                <td class="value" th:text="${khoahoc}"></td>
+            </tr>
+        </table>
+        <div class="footer">
+            &copy; 2025 Trần Kim Quang - 64CNTT_CLC
+        </div>
+    </div>
+</body>
+</html>
