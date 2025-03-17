@@ -1,4 +1,4 @@
-package edu.quangtk.SB_Login.Controllers;
+package edu.quangtk.SB_Login;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +14,7 @@ public class LoginController {
         return "login"; // Trả về file login.html
     }
 
-    @PostMapping("/loginn")
+    @PostMapping("/login")
     public ModelAndView login(@RequestParam("id") String id, @RequestParam("password") String password) {
         ModelAndView modelAndView = new ModelAndView();
 

@@ -1,10 +1,75 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Chào mừng</title>
+    <title>Xin Chào</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #6e8efb, #a777e3); /* Gradient nền tương tự login */
+        }
+
+        .welcome-container {
+            width: 400px;
+            background: rgba(255, 255, 255, 0.95); /* Nền trắng mờ */
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Bóng đổ mềm */
+            backdrop-filter: blur(10px); /* Hiệu ứng kính mờ */
+            text-align: center;
+        }
+
+        .welcome-container h1 {
+            color: #333;
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #5f7de8; /* Màu tiêu đề nổi bật */
+        }
+
+        .welcome-container p {
+            color: #555;
+            font-size: 18px;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .welcome-container a {
+            display: inline-block;
+            padding: 12px 25px;
+            background: linear-gradient(90deg, #6e8efb, #a777e3); /* Gradient tương tự nút login */
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: transform 0.1s ease, background 0.3s ease;
+        }
+
+        .welcome-container a:hover {
+            background: linear-gradient(90deg, #5f7de8, #9466d1); /* Gradient tối hơn khi hover */
+            transform: translateY(-2px); /* Nâng nhẹ khi hover */
+        }
+
+        .welcome-container a:active {
+            transform: translateY(0); /* Trở lại khi nhấn */
+        }
+    </style>
 </head>
 <body>
-    <h1 th:text="${message}"></h1>
-    <a href="/">Quay lại đăng nhập</a>
+    <div class="welcome-container">
+        <h1 th:text="${message}"></h1>
+        <p>Chúc bạn có trải nghiệm tuyệt vời!</p>
+        <a href="/">Quay lại đăng nhập</a>
+    </div>
 </body>
 </html>
