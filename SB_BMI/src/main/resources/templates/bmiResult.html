@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{fragments/header :: title}"></th:block>
+</head>
+<body>
+    <!-- Nhúng header -->
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <h2>Kết quả BMI</h2>
+    <p>Chiều cao: <span th:text="${height}"></span> m</p>
+    <p>Cân nặng: <span th:text="${weight}"></span> kg</p>
+    <p>Chỉ số BMI: <span th:text="${bmi}"></span></p>
+    <p>Phân loại: <span th:text="${category}"></span></p>
+    <a href="/bmi">Quay lại</a>
+
+    <!-- Nhúng footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>
