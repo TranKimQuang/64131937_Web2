@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Trang Web với Fragments</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div th:replace="~{Layout/header :: header}"></div>
+
+        <!-- Sidebar và Main -->
+        <div class="content-wrapper">
+            <div th:replace="~{Layout/sidebar :: sidebar}"></div>
+            <div th:replace="~{Layout/main_layout :: main}"></div>
+        </div>
+
+        <!-- Footer -->
+        <div th:replace="~{Layout/footer :: footer}"></div>
+    </div>
+</body>
+</html>
