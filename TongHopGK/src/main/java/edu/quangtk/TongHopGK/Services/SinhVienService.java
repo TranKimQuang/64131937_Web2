@@ -15,6 +15,7 @@ public class SinhVienService {
         // Thêm dữ liệu mẫu
         dssv.add(new SinhVien(nextMssv++, "Nguyen Van A", 8.5f));
         dssv.add(new SinhVien(nextMssv++, "Tran Thi B", 7.8f));
+        
     }
 
     // Lấy danh sách sinh viên
@@ -27,4 +28,5 @@ public class SinhVienService {
         sinhVien.setMssv(nextMssv++); // Gán giá trị cho mssv
         dssv.add(sinhVien);
     }
+    
 }

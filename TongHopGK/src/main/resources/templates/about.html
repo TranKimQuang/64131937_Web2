@@ -13,6 +13,7 @@
 
         <!-- Main và Sidebar -->
         <div class="content-wrapper">
+        <div th:replace="~{Layout/sidebar :: sidebar}"></div>
             <main class="main-content">
                 <section id="about">
                     <h2 class="main-title">Giới Thiệu</h2>
@@ -27,7 +28,7 @@
                     </div>
                 </section>
             </main>
-            <div th:replace="~{Layout/sidebar :: sidebar}"></div>
+            
         </div>
 
         <!-- Footer -->
