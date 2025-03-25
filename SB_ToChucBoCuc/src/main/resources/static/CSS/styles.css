@@ -154,6 +154,65 @@ body {
     transform: scale(1.05);
 }
 
+/* Contact Form */
+.contact-form {
+    margin-top: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    color: #6a11cb;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #2575fc;
+    outline: none;
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+/* About Me */
+.about-details {
+    margin-top: 20px;
+}
+
+.about-details h3 {
+    color: #6a11cb;
+    margin-bottom: 10px;
+}
+
+.about-details ul {
+    list-style: none;
+}
+
+.about-details ul li {
+    margin: 10px 0;
+    font-size: 1.1em;
+}
+
+.about-details ul li strong {
+    color: #ff5722;
+}
+
 /* Footer */
 .footer {
     background: linear-gradient(90deg, #232526, #414345);
