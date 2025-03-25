@@ -2,13 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
     <aside th:fragment="sidebar" class="sidebar">
-        <h3>Menu</h3>
-        <ul>
+        <h3 class="sidebar-title">Menu</h3>
+        <ul class="sidebar-menu">
             <li><a href="#category1">Danh mục 1</a></li>
             <li><a href="#category2">Danh mục 2</a></li>
             <li><a href="#category3">Danh mục 3</a></li>
         </ul>
-        <p>Thông tin phụ: Đây là sidebar.</p>
+        <div class="sidebar-info">
+            <p>Thông tin phụ: Đây là sidebar hiện đại.</p>
+        </div>
     </aside>
 </body>
 </html>

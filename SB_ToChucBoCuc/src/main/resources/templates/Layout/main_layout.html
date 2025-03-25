@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-    <main th:fragment="main">
+    <main th:fragment="main" class="main-content">
         <section id="home">
-            <h2>Nội Dung Chính</h2>
-            <p>Chào mừng bạn đến với trang web. Đây là khu vực nội dung chính.</p>
-            
+            <h2 class="main-title">Nội Dung Chính</h2>
+            <p>Chào mừng bạn đến với trang web.</p>
+            <div class="image-container">
+                <img src="/Images/hinh1.jpg" alt="Hình ảnh mẫu">
+            </div>
+            <button class="cta-button">Khám phá ngay</button>
         </section>
     </main>
 </body>
