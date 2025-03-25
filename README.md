@@ -1,6 +1,21 @@
 # 64131937_Web2
  Repository lưu trữ chính của môn Web 2
- 
+
+# TongHopGK
+
+Home
+![image](https://github.com/user-attachments/assets/ea27cdc3-6245-4b13-b60e-6fe92b7fbafa)
+
+About
+![image](https://github.com/user-attachments/assets/4550292c-570a-48a9-a55f-d7838eee9e6a)
+
+List
+![image](https://github.com/user-attachments/assets/6ac58d52-8c5a-4ec9-a059-0918c95adebd)
+
+AddNew
+![image](https://github.com/user-attachments/assets/bd171011-0b24-451f-bf21-571d8bacb1bb)
+
+
 # SB_ToChucBoCuc
 
 Index
