@@ -1,23 +1,23 @@
 package edu.quangtk.TongHopGK.Models;
 
 public class SinhVien {
-    private int mssv;
+    private Integer mssv; // Thay int thành Integer
     private String name;
     private float diemTB;
 
     // Constructor
-    public SinhVien(int mssv, String name, float diemTB) {
+    public SinhVien(Integer mssv, String name, float diemTB) {
         this.mssv = mssv;
         this.name = name;
         this.diemTB = diemTB;
     }
 
     // Getters và Setters
-    public int getmssv() {
+    public Integer getMssv() {
         return mssv;
     }
 
-    public void setmssv(int mssv) {
+    public void setMssv(Integer mssv) {
         this.mssv = mssv;
     }
 
@@ -29,11 +29,11 @@ public class SinhVien {
         this.name = name;
     }
 
-    public float getdiemTB() {
+    public float getDiemTB() {
         return diemTB;
     }
 
-    public void setdiemTB(float diemTB) {
+    public void setDiemTB(float diemTB) {
         this.diemTB = diemTB;
     }
 }
