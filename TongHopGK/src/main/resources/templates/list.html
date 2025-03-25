@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Student List</title>
+    <link rel="stylesheet" href="/CSS/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div th:replace="~{Layout/header :: header}"></div>
+
+        <!-- Main và Sidebar -->
+        <div class="content-wrapper">
+            <main class="main-content">
+                <section id="studentList">
+                    <h2 class="main-title">Danh Sách Sinh Viên</h2>
+                    <p>Đây là danh sách sinh viên. Bạn có thể thêm mới từ menu "Add New".</p>
+                    <table class="student-table">
+                        <thead>
+                            <tr>
+                                <th>MSSV</th>
+                                <th>Họ và Tên</th>
+                                <th>Điểm TB</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="sv : ${dssv}">
+                                <td th:text="${sv.mssv}"></td>
+                                <td th:text="${sv.name}"></td>
+                                <td th:text="${sv.diemTB}"></td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(dssv)}">
+                                <td colspan="3">Chưa có sinh viên nào.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </main>
+            <div th:replace="~{Layout/sidebar :: sidebar}"></div>
+        </div>
+
+        <!-- Footer -->
+        <div th:replace="~{Layout/footer :: footer}"></div>
+    </div>
+</body>
+</html>
