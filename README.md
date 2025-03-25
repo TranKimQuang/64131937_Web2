@@ -1,7 +1,7 @@
 # 64131937_Web2
  Repository lưu trữ chính của môn Web 2
  
-#SB_ToChucBoCuc
+# SB_ToChucBoCuc
 
 Index
 ![image](https://github.com/user-attachments/assets/563fd5c1-0c3e-43e7-88f9-cc08e0af56ce)
