@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>About</title>
+    <link rel="stylesheet" href="/CSS/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div th:replace="~{Layout/header :: header}"></div>
+
+        <!-- Main và Sidebar -->
+        <div class="content-wrapper">
+            <main class="main-content">
+                <section id="about">
+                    <h2 class="main-title">Giới Thiệu</h2>
+                    <p>Tôi là Quang, một lập trình viên đam mê công nghệ và thiết kế web.</p>
+                    <div class="about-details">
+                        <h3>Thông tin cá nhân</h3>
+                        <ul>
+                            <li><strong>Họ và tên:</strong> QuangTK</li>
+                            <li><strong>Nghề nghiệp:</strong> Lập trình viên</li>
+                            <li><strong>Sở thích:</strong> Lập trình, thiết kế, và du lịch</li>
+                        </ul>
+                    </div>
+                </section>
+            </main>
+            <div th:replace="~{Layout/sidebar :: sidebar}"></div>
+        </div>
+
+        <!-- Footer -->
+        <div th:replace="~{Layout/footer :: footer}"></div>
+    </div>
+</body>
+</html>

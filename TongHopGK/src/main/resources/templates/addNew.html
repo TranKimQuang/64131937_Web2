@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New</title>
+    <link rel="stylesheet" href="/CSS/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div th:replace="~{Layout/header :: header}"></div>
+
+        <!-- Main và Sidebar -->
+        <div class="content-wrapper">
+        <div th:replace="~{Layout/sidebar :: sidebar}"></div>
+            <main class="main-content">
+                <section id="addNew">
+                    <h2 class="main-title">Thêm Mới Sinh Viên</h2>
+                    <p>Điền thông tin để thêm mới một sinh viên.</p>
+                    <form class="add-form" th:action="@{/addNew}" th:object="${sinhVien}" method="post">
+                        <div class="form-group">
+                            <label for="name">Họ và tên:</label>
+                            <input type="text" id="name" th:field="*{name}" placeholder="Nhập họ và tên" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="diemTB">Điểm trung bình:</label>
+                            <input type="number" step="0.1" id="diemTB" th:field="*{diemTB}" placeholder="Nhập điểm trung bình" required>
+                        </div>
+                        <button type="submit" class="cta-button">Thêm Mới</button>
+                    </form>
+                </section>
+            </main>
+            
+        </div>
+
+        <!-- Footer -->
+        <div th:replace="~{Layout/footer :: footer}"></div>
+    </div>
+</body>
+</html>
