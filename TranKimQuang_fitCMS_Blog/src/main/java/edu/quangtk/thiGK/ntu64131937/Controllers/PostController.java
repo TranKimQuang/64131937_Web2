@@ -16,17 +16,19 @@ public class PostController {
     @GetMapping("/list")
     public String listPosts(Model model) {
         List<Post> posts = new ArrayList<>();
-        posts.add(new Post("First Post", "This is the first post content", 1L));
-        posts.add(new Post("Second Post", "This is the second post content", 2L));
+        posts.add(new Post(1L, "First Post", "This is the first post content", 1L));
+        posts.add(new Post(2L, "Second Post", "This is the second post content", 2L));
+
         model.addAttribute("posts", posts);
-        model.addAttribute("title", "Post List");
+        model.addAttribute("title", "Danh sách bài viết");
         model.addAttribute("content", "postList :: content");
+
         return "layout/main"; 
     }
 
     @GetMapping("/add")
     public String addPost(Model model) {
-        model.addAttribute("title", "Add New Post");
+        model.addAttribute("title", "Thêm bài viết mới");
         model.addAttribute("content", "postAdd :: content");
         return "layout/main"; 
     }

@@ -16,17 +16,19 @@ public class PageController {
     @GetMapping("/list")
     public String listPages(Model model) {
         List<Page> pages = new ArrayList<>();
-        pages.add(new Page("Nguyễn Văn A", "nguyen-van-a, sinh-vien, cntt", "...", null));
-        pages.add(new Page("Trần Thị B", "tran-thi-b, sinh-vien, marketing", "...", 1L));
+        pages.add(new Page(1L, "Nguyễn Văn A", "nguyen-van-a, sinh-vien, cntt", "...", null));
+        pages.add(new Page(2L, "Trần Thị B", "tran-thi-b, sinh-vien, marketing", "...", 1L));
+
         model.addAttribute("pages", pages);
-        model.addAttribute("title", "Page List");
+        model.addAttribute("title", "Danh sách trang");
         model.addAttribute("content", "pageList :: content");
+
         return "layout/main"; 
     }
 
     @GetMapping("/add")
     public String addPage(Model model) {
-        model.addAttribute("title", "Add New Page");
+        model.addAttribute("title", "Thêm trang mới");
         model.addAttribute("content", "pageAdd :: content");
         return "layout/main"; 
     }
