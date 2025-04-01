@@ -1,0 +1,33 @@
+package edu.quangtk.thiGK.ntu64131937.Controllers;
+
+import edu.quangtk.thiGK.ntu64131937.Models.Post;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Controller
+@RequestMapping("/posts")
+public class PostController {
+
+    @GetMapping("/list")
+    public String listPosts(Model model) {
+        List<Post> posts = new ArrayList<>();
+        posts.add(new Post("First Post", "This is the first post content", 1L));
+        posts.add(new Post("Second Post", "This is the second post content", 2L));
+        model.addAttribute("posts", posts);
+        model.addAttribute("title", "Post List");
+        model.addAttribute("content", "postList :: content");
+        return "layout/main"; 
+    }
+
+    @GetMapping("/add")
+    public String addPost(Model model) {
+        model.addAttribute("title", "Add New Post");
+        model.addAttribute("content", "postAdd :: content");
+        return "layout/main"; 
+    }
+}

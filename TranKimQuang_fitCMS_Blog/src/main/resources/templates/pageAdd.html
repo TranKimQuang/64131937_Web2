@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <div th:fragment="content">
+        <h1 class="mt-4">Add New Student CV</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+            <li class="breadcrumb-item active">Add New Page</li>
+        </ol>
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-plus me-1"></i>
+                Student CV Form
+            </div>
+            <div class="card-body">
+                <form th:action="@{/pages/add}" method="post">
+                    <div class="mb-3">
+                        <label for="pageName" class="form-label">Student Name (Page Name)</label>
+                        <input type="text" class="form-control" id="pageName" name="pageName" required placeholder="e.g., Nguyễn Văn A" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="keyword" class="form-label">Keywords</label>
+                        <input type="text" class="form-control" id="keyword" name="keyword" placeholder="e.g., nguyen-van-a, sinh-vien, cntt" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="content" class="form-label">CV Content (HTML Format)</label>
+                        <textarea class="form-control" id="content" name="content" rows="10" placeholder="<h3>CV - [Student Name]</h3><p><strong>MSSV:</strong> [Your MSSV]</p><p><strong>Ngành học:</strong> [Your Major]</p><p><strong>Email:</strong> [Your Email]</p><p><strong>Số điện thoại:</strong> [Your Phone]</p><p><strong>Kỹ năng:</strong> [Your Skills]</p><p><strong>Kinh nghiệm:</strong> [Your Experience]</p><p><strong>Học vấn:</strong> [Your Education]</p>"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="parentPageID" class="form-label">Parent Page ID</label>
+                        <input type="number" class="form-control" id="parentPageID" name="parentPageID" placeholder="e.g., 1 (optional)" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save CV</button>
+                    <a th:href="@{/pages/list}" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
