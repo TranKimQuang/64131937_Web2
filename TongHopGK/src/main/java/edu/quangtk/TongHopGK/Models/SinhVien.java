@@ -1,7 +1,7 @@
 package edu.quangtk.TongHopGK.Models;
 
 public class SinhVien {
-    private Integer mssv; // Thay int thành Integer
+    private Integer mssv; 
     private String name;
     private float diemTB;
 
