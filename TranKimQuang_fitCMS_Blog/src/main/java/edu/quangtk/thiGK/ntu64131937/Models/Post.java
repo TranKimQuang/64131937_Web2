@@ -1,34 +1,20 @@
 package edu.quangtk.thiGK.ntu64131937.Models;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "posts")
 public class Post {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "title", nullable = false)
     private String title;
-
-    @Column(name = "content", columnDefinition = "TEXT")
     private String content;
-
-    @Column(name = "category_id")
     private Long categoryID;
 
-    // Constructors
-    public Post() {}
-
-    public Post(String title, String content, Long categoryID) {
+    // Constructor
+    public Post(Long id, String title, String content, Long categoryID) {
+        this.id = id;
         this.title = title;
         this.content = content;
         this.categoryID = categoryID;
     }
 
-    // Getters and Setters
+    // Getters và Setters
     public Long getId() {
         return id;
     }
