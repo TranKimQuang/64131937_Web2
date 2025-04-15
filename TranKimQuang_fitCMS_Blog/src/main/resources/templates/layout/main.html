@@ -7,11 +7,11 @@
 </head>
 <body>
     <!-- Header -->
-    <div th:replace="layout/header :: header"></div>
+    <div th:replace="layout/header.html :: header"></div>
 
     <div id="layoutSidenav">
         <!-- Sidebar -->
-        <div th:replace="layout/sidebar :: sidebar"></div>
+        <div th:replace="layout/sidebar.html :: sidebar"></div>
 
         <div id="layoutSidenav_content">
             <main>
@@ -24,7 +24,7 @@
                 </div>
             </main>
             <!-- Footer -->
-            <div th:replace="layout/footer :: footer"></div>
+            <div th:replace="layout/footer.html :: footer"></div>
         </div>
     </div>
 </body>
