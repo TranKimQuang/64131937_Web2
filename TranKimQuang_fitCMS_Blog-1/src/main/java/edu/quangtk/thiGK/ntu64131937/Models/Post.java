@@ -1,23 +1,24 @@
 package edu.quangtk.thiGK.ntu64131937.Models;
 
 public class Post {
-    private Long id;
+    private String id;
     private String title;
     private String content;
     private String categoryID;
 
-    public Post(Long id, String title, String content, String categoryID) {
+    public Post(String id, String title, String content, String categoryID) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.categoryID = categoryID;
     }
 
-    public Long getId() {
+    // Getters and setters
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

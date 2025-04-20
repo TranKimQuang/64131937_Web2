@@ -1,13 +1,13 @@
 package edu.quangtk.thiGK.ntu64131937.Models;
 
 public class Page {
-    private Long id;
+    private String id;
     private String pageName;
     private String keyword;
     private String content;
-    private Long parentPageID;
- 
-    public Page(Long id, String pageName, String keyword, String content, Long parentPageID) {
+    private String parentPageID;
+
+    public Page(String id, String pageName, String keyword, String content, String parentPageID) {
         this.id = id;
         this.pageName = pageName;
         this.keyword = keyword;
@@ -15,11 +15,12 @@ public class Page {
         this.parentPageID = parentPageID;
     }
 
-    public Long getId() {
+    // Getters and setters
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -47,11 +48,11 @@ public class Page {
         this.content = content;
     }
 
-    public Long getParentPageID() {
+    public String getParentPageID() {
         return parentPageID;
     }
 
-    public void setParentPageID(Long parentPageID) {
+    public void setParentPageID(String parentPageID) {
         this.parentPageID = parentPageID;
     }
 }
