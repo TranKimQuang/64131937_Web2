@@ -9,8 +9,13 @@
                 <!-- Hiển thị danh sách bài viết động -->
                 <div th:each="post : ${posts}" class="bg-white p-6 rounded-lg shadow-md card">
                     <h3 class="text-xl font-semibold mb-2" th:text="${post.title}">Tiêu đề</h3>
-                    <p class="text-gray-600 mb-2" th:text="'Danh mục: ' + ${post.categoryID}">Danh mục</p>
-                    <p class="text-gray-800" th:text="'Nội dung: ' + ${post.content}">Nội dung</p>
+                    <p class="text-gray-600 mb-2" th:text="'Danh mục: ' + (${post.categoryID} != null ? ${post.categoryID} : 'None')">Danh mục</p>
+                    <p class="text-gray-800 mb-2" th:text="'Nội dung: ' + ${post.content}">Nội dung</p>
+                    <div class="mt-4">
+                        <a th:href="@{/posts/{id}(id=${post.id})}" class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600 mr-2">Xem</a>
+                        <a th:href="@{/posts/edit/{id}(id=${post.id})}" class="bg-yellow-500 text-white px-3 py-1 rounded-lg hover:bg-yellow-600 mr-2">Sửa</a>
+                        <a th:href="@{/posts/delete/{id}(id=${post.id})}" class="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600" onclick="return confirm('Bạn có chắc chắn muốn xóa bài viết này?')">Xóa</a>
+                    </div>
                 </div>
             </div>
         </content>

@@ -12,6 +12,11 @@
                     <p class="text-gray-600 mb-2" th:text="'Từ khóa: ' + ${page.keyword}">Từ khóa</p>
                     <p class="text-gray-800 mb-2" th:text="'Nội dung: ' + ${page.content}">Nội dung</p>
                     <p class="text-gray-500 text-sm" th:text="'Parent ID: ' + (${page.parentPageID} != null ? ${page.parentPageID} : 'None')">Parent ID</p>
+                    <div class="mt-4">
+                        <a th:href="@{/pages/{id}(id=${page.id})}" class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600 mr-2">Xem</a>
+                        <a th:href="@{/pages/edit/{id}(id=${page.id})}" class="bg-yellow-500 text-white px-3 py-1 rounded-lg hover:bg-yellow-600 mr-2">Sửa</a>
+                        <a th:href="@{/pages/delete/{id}(id=${page.id})}" class="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600" onclick="return confirm('Bạn có chắc chắn muốn xóa trang này?')">Xóa</a>
+                    </div>
                 </div>
             </div>
         </content>
