@@ -4,45 +4,59 @@ import edu.quangtk.thiGK.ntu64131937.Models.Post;
 import edu.quangtk.thiGK.ntu64131937.Repositories.PostRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 public class PostService {
-    private final PostRepository postRepository;
+    private static final List<Post> postList = new ArrayList<>();
+    private static final AtomicLong idCounter = new AtomicLong(1);
 
-    public PostService(PostRepository postRepository) {
-        this.postRepository = postRepository;
+    public PostService() {
+        // HARD CODE: Dữ liệu mẫu ban đầu
+        addPost("Bài viết giới thiệu", "Đây là bài viết giới thiệu.", "cat1");
+        addPost("Tin tức 1", "Nội dung tin tức số 1.", "cat2");
+        addPost("Tin tức 2", "Nội dung tin tức số 2.", "cat2");
     }
 
-    // Thêm bài viết mới
     public void addPost(String title, String content, String categoryID) {
-        Post post = new Post(null, title, content, categoryID);
-        postRepository.save(post);
-    }
-
-    // Lấy tất cả bài viết
-    public List<Post> getAllPosts() {
-        return postRepository.findAll();
-    }
-
-    // Lấy bài viết theo ID
-    public Post getPostById(Long id) {
-        return postRepository.findById(id);
-    }
-
-    // Cập nhật bài viết
-    public boolean updatePost(Long id, String title, String content, String categoryID) {
+        Long id = idCounter.getAndIncrement();
         Post post = new Post(id, title, content, categoryID);
-        return postRepository.update(post);
+        postList.add(post);
     }
 
-    // Xóa bài viết
+    public List<Post> getAllPosts() {
+        return new ArrayList<>(postList);
+    }
+
+    public Post getPostById(Long id) {
+        return postList.stream().filter(p -> p.getId().equals(id)).findFirst().orElse(null);
+    }
+
+    public boolean updatePost(Long id, String title, String content, String categoryID) {
+        for (Post post : postList) {
+            if (post.getId().equals(id)) {
+                post.setTitle(title);
+                post.setContent(content);
+                post.setCategoryID(categoryID);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean deletePost(Long id) {
-        return postRepository.delete(id);
+        return postList.removeIf(p -> p.getId().equals(id));
     }
 
-    // Lấy bài viết theo danh mục
     public List<Post> getPostsByCategory(String categoryID) {
-        return postRepository.findByCategoryId(categoryID);
+        List<Post> result = new ArrayList<>();
+        for (Post post : postList) {
+            if (post.getCategoryID().equalsIgnoreCase(categoryID)) {
+                result.add(post);
+            }
+        }
+        return result;
     }
 }
