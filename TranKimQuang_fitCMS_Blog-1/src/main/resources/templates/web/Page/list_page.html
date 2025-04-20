@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/layout :: head}"></head>
+<body>
+    <div th:replace="~{layout/layout :: body}">
+        <content>
+            <h2 class="text-3xl font-bold mb-6">Danh sách Trang</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Hiển thị danh sách trang động -->
+                <div th:each="page : ${pages}" class="bg-white p-6 rounded-lg shadow-md card">
+                    <h3 class="text-xl font-semibold mb-2" th:text="${page.pageName}">Tên Trang</h3>
+                    <p class="text-gray-600 mb-2" th:text="'Từ khóa: ' + ${page.keyword}">Từ khóa</p>
+                    <p class="text-gray-800 mb-2" th:text="'Nội dung: ' + ${page.content}">Nội dung</p>
+                    <p class="text-gray-500 text-sm" th:text="'Parent ID: ' + (${page.parentPageID} != null ? ${page.parentPageID} : 'None')">Parent ID</p>
+                </div>
+            </div>
+        </content>
+    </div>
+</body>
+</html>

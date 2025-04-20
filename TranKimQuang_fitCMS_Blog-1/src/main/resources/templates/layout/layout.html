@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title} ?: 'FitCMS Blog'">FitCMS Blog</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body class="bg-gray-100 font-sans flex" th:fragment="body">
+    <!-- Sidebar (Thanh điều hướng dọc bên trái) -->
+    <aside class="bg-blue-800 text-white w-56 min-h-screen p-3 flex flex-col shadow-lg">
+           <img src="/img/logo.png" alt="Hình ảnh mẫu" class="h-12 mr-4">
+        <nav class="flex flex-col space-y-2">
+            <a th:href="@{/}" class="px-3 py-2 hover:bg-blue-900 rounded-lg transition-colors duration-200">Trang chủ</a>
+            <a th:href="@{/pages}" class="px-3 py-2 hover:bg-blue-900 rounded-lg transition-colors duration-200">Danh sách Trang</a>
+            <a th:href="@{/pages/add}" class="px-3 py-2 hover:bg-blue-900 rounded-lg transition-colors duration-200">Thêm Trang</a>
+            <a th:href="@{/posts}" class="px-3 py-2 hover:bg-blue-900 rounded-lg transition-colors duration-200">Danh sách Bài viết</a>
+            <a th:href="@{/posts/add}" class="px-3 py-2 hover:bg-blue-900 rounded-lg transition-colors duration-200">Thêm Bài viết</a>
+        </nav>
+    </aside>
+
+    <!-- Nội dung chính -->
+    <div class="flex-1 flex flex-col">
+        <!-- Header -->
+        <header class="bg-white shadow p-4 flex items-center">
+    <h1 class="ml-auto">[UserName]</h1>
+		</header>
+
+        <!-- Main -->
+        <main class="p-8 flex-1">
+            <th:block th:insert="~{::content}" />
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-white p-4 text-center">
+            <p>© 2025 By TranKimQuang _ FIT.NTU.</p>
+        </footer>
+    </div>
+</body>
+</html>
