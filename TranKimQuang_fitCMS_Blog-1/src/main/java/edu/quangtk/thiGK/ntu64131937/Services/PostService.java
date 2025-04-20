@@ -1,7 +1,6 @@
 package edu.quangtk.thiGK.ntu64131937.Services;
 
 import edu.quangtk.thiGK.ntu64131937.Models.Post;
-import edu.quangtk.thiGK.ntu64131937.Repositories.PostRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,14 +13,14 @@ public class PostService {
     private static final AtomicLong idCounter = new AtomicLong(1);
 
     public PostService() {
-        // HARD CODE: Dữ liệu mẫu ban đầu
+        
         addPost("Bài viết giới thiệu", "Đây là bài viết giới thiệu.", "cat1");
         addPost("Tin tức 1", "Nội dung tin tức số 1.", "cat2");
         addPost("Tin tức 2", "Nội dung tin tức số 2.", "cat2");
     }
 
     public void addPost(String title, String content, String categoryID) {
-        Long id = idCounter.getAndIncrement();
+        String id = String.valueOf(idCounter.getAndIncrement());
         Post post = new Post(id, title, content, categoryID);
         postList.add(post);
     }
@@ -30,11 +29,14 @@ public class PostService {
         return new ArrayList<>(postList);
     }
 
-    public Post getPostById(Long id) {
-        return postList.stream().filter(p -> p.getId().equals(id)).findFirst().orElse(null);
+    public Post getPostById(String id) {
+        return postList.stream()
+                .filter(p -> p.getId().equals(id))
+                .findFirst()
+                .orElse(null);
     }
 
-    public boolean updatePost(Long id, String title, String content, String categoryID) {
+    public boolean updatePost(String id, String title, String content, String categoryID) {
         for (Post post : postList) {
             if (post.getId().equals(id)) {
                 post.setTitle(title);
@@ -46,14 +48,14 @@ public class PostService {
         return false;
     }
 
-    public boolean deletePost(Long id) {
+    public boolean deletePost(String id) {
         return postList.removeIf(p -> p.getId().equals(id));
     }
 
     public List<Post> getPostsByCategory(String categoryID) {
         List<Post> result = new ArrayList<>();
         for (Post post : postList) {
-            if (post.getCategoryID().equalsIgnoreCase(categoryID)) {
+            if (post.getCategoryID() != null && post.getCategoryID().equalsIgnoreCase(categoryID)) {
                 result.add(post);
             }
         }
