@@ -1,7 +1,7 @@
 # 64131937_Web2
  Repository lưu trữ chính của môn Web 2
 
-# BaiGKWEB2
+# Bai Giua Ki WEB2
 Dashboard
 ![image](https://github.com/user-attachments/assets/750e05dc-1ca6-4e2b-933c-9ef2f8b76f49)
 
