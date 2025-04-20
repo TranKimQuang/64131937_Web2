@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/posts")
 public class PostController {
-    private PostService postService;
+    private final PostService postService;
 
     public PostController(PostService postService) {
         this.postService = postService;
@@ -36,10 +36,51 @@ public class PostController {
         return "redirect:/posts";
     }
 
-    // Hiển thị bài viết theo danh mục (nếu cần)
+    // Hiển thị bài viết theo danh mục
     @GetMapping("/category/{categoryID}")
     public String displayPostsByCategory(@PathVariable String categoryID, Model model) {
         model.addAttribute("posts", postService.getPostsByCategory(categoryID));
         return "web/Post/list_post";
+    }
+
+    // Hiển thị chi tiết bài viết
+    @GetMapping("/{id}")
+    public String viewPost(@PathVariable String id, Model model) {
+        Post post = postService.getPostById(id);
+        if (post == null) {
+            return "redirect:/posts"; 
+        }
+        model.addAttribute("post", post);
+        return "web/Post/view_post";
+    }
+
+    // Hiển thị form chỉnh sửa bài viết
+    @GetMapping("/edit/{id}")
+    public String showEditPostForm(@PathVariable String id, Model model) {
+        Post post = postService.getPostById(id);
+        if (post == null) {
+            return "redirect:/posts"; 
+        }
+        model.addAttribute("post", post);
+        return "web/Post/edit_post";
+    }
+
+    // Xử lý chỉnh sửa bài viết
+    @PostMapping("/edit/{id}")
+    public String editPost(@PathVariable String id, @ModelAttribute("post") Post updatedPost) {
+        postService.updatePost(id, updatedPost.getTitle(), updatedPost.getContent(), updatedPost.getCategoryID());
+        return "redirect:/posts";
+    }
+
+    // Xử lý xóa bài viết
+    @GetMapping("/delete/{id}")
+    public String deletePost(@PathVariable String id) {
+        postService.deletePost(id);
+        return "redirect:/posts";
+    }
+
+    // Getter để PageController có thể truy cập danh sách bài viết
+    public PostService getPostService() {
+        return postService;
     }
 }
