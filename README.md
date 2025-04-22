@@ -1,6 +1,23 @@
 # 64131937_Web2
  Repository lưu trữ chính của môn Web 2
 
+# Bai Giua Ki WEB2
+Dashboard
+![image](https://github.com/user-attachments/assets/750e05dc-1ca6-4e2b-933c-9ef2f8b76f49)
+
+List Pages
+![image](https://github.com/user-attachments/assets/50a9f015-1371-430d-95e3-7adc80f02173)
+
+Add Pages
+![image](https://github.com/user-attachments/assets/4c6b2f32-579f-4e36-9eb2-b41c8f1a779f)
+
+List Posts
+![image](https://github.com/user-attachments/assets/78cbc411-ef05-4179-ab97-d41335ffd231)
+
+Add Posts
+![image](https://github.com/user-attachments/assets/d232882d-1d9b-4487-994d-84277d43e25d)
+
+
 # TongHopGK
 
 Home
