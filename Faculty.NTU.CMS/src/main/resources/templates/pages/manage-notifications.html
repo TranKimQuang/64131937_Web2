@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout}">
+<head>
+    <meta charset="UTF-8">
+    <title th:replace="~{layout/layout :: title}">Manage Notifications</title>
+</head>
+<body>
+    <div th:fragment="content">
+        <h2>Manage Notifications</h2>
+        <a th:href="@{/notifications/new}" class="btn btn-primary mb-3">Add New Notification</a>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Faculty</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="notification : ${notifications}">
+                    <td th:text="${notification.id}">1</td>
+                    <td th:text="${notification.title}">Notification Title</td>
+                    <td th:text="${notification.faculty?.name}">Faculty Name</td>
+                    <td th:text="${#dates.format(notification.startDate, 'yyyy-MM-dd HH:mm')}">Start Date</td>
+                    <td th:text="${#dates.format(notification.endDate, 'yyyy-MM-dd HH:mm')}">End Date</td>
+                    <td>
+                        <a th:href="@{/notifications/edit/{id}(id=${notification.id})}" class="btn btn-sm btn-warning">Edit</a>
+                        <a th:href="@{/notifications/delete/{id}(id=${notification.id})}" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
