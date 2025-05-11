@@ -1,8 +1,9 @@
 package edu.quangtk.controllers;
 
-import com.ntu.facultycms.entity.Menu;
-import com.ntu.facultycms.service.MenuService;
-import org.springframework.beans.factory.annotation.Autowired;
+import edu.quangtk.entity.Faculty;
+import edu.quangtk.entity.Menu;
+import edu.quangtk.services.FacultyService;
+import edu.quangtk.services.MenuService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -12,27 +13,38 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/faculty/{facultyId}/menus")
 public class MenuController {
-    @Autowired
-    private MenuService menuService;
+    private final MenuService menuService;
+    private final FacultyService facultyService;
+
+    public MenuController(MenuService menuService, FacultyService facultyService) {
+        this.menuService = menuService;
+        this.facultyService = facultyService;
+    }
 
     @PostMapping
     @PreAuthorize("hasRole('FACULTY_ADMIN') or hasRole('EDITOR')")
-    public ResponseEntity<Menu> createMenu(@PathVariable Long facultyId, @RequestBody Menu menu) {
-        menu.setFacultyId(facultyId);
+    public ResponseEntity<Menu> createMenu(
+            @PathVariable Long facultyId, 
+            @RequestBody Menu menu) {
+        Faculty faculty = facultyService.getFacultyById(facultyId);
+        menu.setFaculty(faculty);
         return ResponseEntity.ok(menuService.createMenu(menu));
     }
 
     @GetMapping
     @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('FACULTY_ADMIN') or hasRole('EDITOR')")
     public ResponseEntity<List<Menu>> getMenusByFaculty(@PathVariable Long facultyId) {
-        return ResponseEntity.ok(menuService.getMenusByFaculty(facultyId));
+        List<Menu> menus = menuService.getMenusByFaculty(facultyId);
+        return ResponseEntity.ok(menus);
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('FACULTY_ADMIN') or hasRole('EDITOR')")
-    public ResponseEntity<Menu> getMenuById(@PathVariable Long facultyId, @PathVariable Long id) {
+    public ResponseEntity<Menu> getMenuById(
+            @PathVariable Long facultyId, 
+            @PathVariable Long id) {
         Menu menu = menuService.getMenuById(id);
-        if (!menu.getFacultyId().equals(facultyId)) {
+        if (!menu.getFaculty().getId().equals(facultyId)) {
             throw new RuntimeException("Menu does not belong to this faculty");
         }
         return ResponseEntity.ok(menu);
@@ -40,16 +52,22 @@ public class MenuController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('FACULTY_ADMIN') or hasRole('EDITOR')")
-    public ResponseEntity<Menu> updateMenu(@PathVariable Long facultyId, @PathVariable Long id, @RequestBody Menu menu) {
-        menu.setFacultyId(facultyId);
+    public ResponseEntity<Menu> updateMenu(
+            @PathVariable Long facultyId, 
+            @PathVariable Long id, 
+            @RequestBody Menu menu) {
+        Faculty faculty = facultyService.getFacultyById(facultyId);
+        menu.setFaculty(faculty);
         return ResponseEntity.ok(menuService.updateMenu(id, menu));
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('FACULTY_ADMIN')")
-    public ResponseEntity<Void> deleteMenu(@PathVariable Long facultyId, @PathVariable Long id) {
+    public ResponseEntity<Void> deleteMenu(
+            @PathVariable Long facultyId, 
+            @PathVariable Long id) {
         Menu menu = menuService.getMenuById(id);
-        if (!menu.getFacultyId().equals(facultyId)) {
+        if (!menu.getFaculty().getId().equals(facultyId)) {
             throw new RuntimeException("Menu does not belong to this faculty");
         }
         menuService.deleteMenu(id);

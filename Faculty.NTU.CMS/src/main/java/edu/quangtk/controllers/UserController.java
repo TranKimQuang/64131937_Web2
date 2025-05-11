@@ -1,7 +1,7 @@
 package edu.quangtk.controllers;
 
-import com.ntu.facultycms.entity.User;
-import com.ntu.facultycms.service.UserService;
+import edu.quangtk.entity.*;
+import edu.quangtk.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,7 +23,7 @@ public class UserController {
 
     @GetMapping
     @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('FACULTY_ADMIN')")
-    public ResponseEntity<List<User>> getAllUsers(@RequestParam(required = false) Long facultyId) {
+    public ResponseEntity<List<User>> getAllUsers(@RequestParam(required = false) Faculty facultyId) {
         return ResponseEntity.ok(userService.getAllUsers(facultyId));
     }
 
