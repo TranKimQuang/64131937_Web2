@@ -1,7 +1,7 @@
 package edu.quangtk.controllers;
-import com.ntu.facultycms.entity.Faculty;
-import com.ntu.facultycms.service.FacultyService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import edu.quangtk.entity.Faculty;
+import edu.quangtk.services.FacultyService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -11,32 +11,42 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/admin/faculties")
 public class FacultyController {
-    @Autowired
-    private FacultyService facultyService;
+    private final FacultyService facultyService;
+
+    // Sử dụng constructor injection thay vì field injection
+    public FacultyController(FacultyService facultyService) {
+        this.facultyService = facultyService;
+    }
 
     @PostMapping
     @PreAuthorize("hasRole('SUPER_ADMIN')")
     public ResponseEntity<Faculty> createFaculty(@RequestBody Faculty faculty) {
-        return ResponseEntity.ok(facultyService.createFaculty(faculty));
+        Faculty createdFaculty = facultyService.createFaculty(faculty);
+        return ResponseEntity.ok(createdFaculty);
     }
 
     @GetMapping
     @PreAuthorize("hasRole('SUPER_ADMIN')")
     public ResponseEntity<List<Faculty>> getAllFaculties() {
-        return ResponseEntity.ok(facultyService.getAllFaculties());
+        List<Faculty> faculties = facultyService.getAllFaculties();
+        return ResponseEntity.ok(faculties);
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('SUPER_ADMIN')")
     public ResponseEntity<Faculty> getFacultyById(@PathVariable Long id) {
-        return ResponseEntity.ok(facultyService.getFacultyById(id));
+        Faculty faculty = facultyService.getFacultyById(id);
+        return ResponseEntity.ok(faculty);
     }
 
-    @PutMapping("/{id}")
-    @PreAuthorize("hasRole('SUPER_ADMIN')")
-    public ResponseEntity<Faculty> updateFaculty(@PathVariable Long id, @RequestBody Faculty faculty) {
-        return ResponseEntity.ok(facultyService.updateFaculty(id, faculty));
-    }
+//    @PutMapping("/{id}")
+//    @PreAuthorize("hasRole('SUPER_ADMIN')")
+//    public ResponseEntity<Faculty> updateFaculty(
+//            @PathVariable Long id, 
+//            @RequestBody Faculty faculty) {
+//        Faculty updatedFaculty = facultyService.updateFaculty(id, faculty);
+//        return ResponseEntity.ok(updatedFaculty);
+//    }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('SUPER_ADMIN')")
