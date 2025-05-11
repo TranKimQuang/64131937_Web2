@@ -1,0 +1,22 @@
+<div th:fragment="content">
+    <h2>Editor Dashboard</h2>
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+    <h3>Create Post</h3>
+    <form th:action="@{/editor/create-post}" method="post">
+        <div class="mb-3">
+            <label class="form-label">Title</label>
+            <input type="text" class="form-control" th:field="*{title}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Slug</label>
+            <input type="text" class="form-control" th:field="*{slug}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Content</label>
+            <textarea class="form-control" th:field="*{content}"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Create and Submit for Approval</button>
+    </form>
+</div>

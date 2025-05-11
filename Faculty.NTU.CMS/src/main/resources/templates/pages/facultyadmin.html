@@ -1,0 +1,143 @@
+<div th:fragment="content">
+    <h2>Faculty Admin Dashboard</h2>
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+    <h3>Manage Posts</h3>
+    <form th:action="@{/facultyadmin/create-post}" method="post">
+        <div class="mb-3">
+            <label class="form-label">Title</label>
+            <input type="text" class="form-control" th:field="*{title}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Slug</label>
+            <input type="text" class="form-control" th:field="*{slug}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Content</label>
+            <textarea class="form-control" th:field="*{content}"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Create Post</button>
+    </form>
+    <table class="table mt-4">
+        <thead><tr><th>Title</th><th>Slug</th><th>Content</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody>
+        <tr th:each="post : ${posts}">
+            <td th:text="${post.title}"></td>
+            <td th:text="${post.slug}"></td>
+            <td th:text="${post.content}"></td>
+            <td th:text="${post.status}"></td>
+            <td>
+                <form th:action="@{/facultyadmin/update-post}" method="post">
+                    <input type="hidden" th:field="*{id}" th:value="${post.id}">
+                    <input type="text" th:field="*{title}" th:value="${post.title}" required>
+                    <input type="text" th:field="*{slug}" th:value="${post.slug}" required>
+                    <textarea th:field="*{content}" th:text="${post.content}"></textarea>
+                    <select th:field="*{status}">
+                        <option th:value="'DRAFT'" th:selected="${post.status == 'DRAFT'}">Draft</option>
+                        <option th:value="'PENDING'" th:selected="${post.status == 'PENDING'}">Pending</option>
+                        <option th:value="'PUBLISHED'" th:selected="${post.status == 'PUBLISHED'}">Published</option>
+                    </select>
+                    <button type="submit" class="btn btn-warning">Update</button>
+                </form>
+                <form th:action="@{/facultyadmin/delete-post}" method="post">
+                    <input type="hidden" th:value="${post.id}" name="id">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Pending Posts for Approval</h3>
+    <table class="table mt-4">
+        <thead><tr><th>Title</th><th>Slug</th><th>Content</th><th>Action</th></tr></thead>
+        <tbody>
+        <tr th:each="post : ${pendingPosts}">
+            <td th:text="${post.title}"></td>
+            <td th:text="${post.slug}"></td>
+            <td th:text="${post.content}"></td>
+            <td>
+                <form th:action="@{/facultyadmin/approve-post}" method="post">
+                    <input type="hidden" th:value="${post.id}" name="id">
+                    <button type="submit" class="btn btn-success">Approve</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Manage Pages</h3>
+    <form th:action="@{/facultyadmin/create-page}" method="post">
+        <div class="mb-3">
+            <label class="form-label">Title</label>
+            <input type="text" class="form-control" th:field="*{title}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Content</label>
+            <textarea class="form-control" th:field="*{content}"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Create Page</button>
+    </form>
+    <table class="table mt-4">
+        <thead><tr><th>Title</th><th>Content</th><th>Action</th></tr></thead>
+        <tbody>
+        <tr th:each="page : ${pages}">
+            <td th:text="${page.title}"></td>
+            <td th:text="${page.content}"></td>
+            <td>
+                <form th:action="@{/facultyadmin/update-page}" method="post">
+                    <input type="hidden" th:field="*{id}" th:value="${page.id}">
+                    <input type="text" th:field="*{title}" th:value="${page.title}" required>
+                    <textarea th:field="*{content}" th:text="${page.content}"></textarea>
+                    <button type="submit" class="btn btn-warning">Update</button>
+                </form>
+                <form th:action="@{/facultyadmin/delete-page}" method="post">
+                    <input type="hidden" th:value="${page.id}" name="id">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Manage Events</h3>
+    <form th:action="@{/facultyadmin/create-event}" method="post">
+        <div class="mb-3">
+            <label class="form-label">Title</label>
+            <input type="text" class="form-control" th:field="*{title}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" th:field="*{description}"></textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Event Date</label>
+            <input type="datetime-local" class="form-control" th:field="*{eventDate}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Create Event</button>
+    </form>
+    <table class="table mt-4">
+        <thead><tr><th>Title</th><th>Description</th><th>Event Date</th><th>Action</th></tr></thead>
+        <tbody>
+        <tr th:each="event : ${events}">
+            <td th:text="${event.title}"></td>
+            <td th:text="${event.description}"></td>
+            <td th:text="${#temporals.format(event.eventDate, 'yyyy-MM-dd HH:mm')}"></td>
+            <td>
+                <form th:action="@{/facultyadmin/update-event}" method="post">
+                    <input type="hidden" th:field="*{id}" th:value="${event.id}">
+                    <input type="text" th:field="*{title}" th:value="${event.title}" required>
+                    <textarea th:field="*{description}" th:text="${event.description}"></textarea>
+                    <input type="datetime-local" th:field="*{eventDate}" th:value="${#temporals.format(event.eventDate, 'yyyy-MM-dd\'T\'HH:mm')}" required>
+                    <button type="submit" class="btn btn-warning">Update</button>
+                </form>
+                <form th:action="@{/facultyadmin/delete-event}" method="post">
+                    <input type="hidden" th:value="${event.id}" name="id">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
