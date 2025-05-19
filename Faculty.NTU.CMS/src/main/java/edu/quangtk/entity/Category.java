@@ -6,11 +6,12 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "categories")
 public class Category {
-	 @Id
-	    @Column(name = "category_id") // ánh xạ đúng tên cột trong bảng
-	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    private Long id;
-	 
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "category_id")
+    private Long id;
+
     @Column(nullable = false)
     private String name;
 
@@ -19,21 +20,23 @@ public class Category {
 
     private String description;
 
-    @Column(name = "faculty_id")
-    private Long facultyId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "faculty_id", nullable = false)
+    private Faculty faculty;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    // Constructors
+    // Constructor mặc định
     public Category() {
     }
 
-    public Category(String name, String slug, String description, Long facultyId) {
+    // Constructor đầy đủ
+    public Category(String name, String slug, String description, Faculty faculty) {
         this.name = name;
         this.slug = slug;
         this.description = description;
-        this.facultyId = facultyId;
+        this.faculty = faculty;
     }
 
     // Getters and Setters
@@ -69,12 +72,12 @@ public class Category {
         this.description = description;
     }
 
-    public Long getFacultyId() {
-        return facultyId;
+    public Faculty getFaculty() {
+        return faculty;
     }
 
-    public void setFacultyId(Long facultyId) {
-        this.facultyId = facultyId;
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
     }
 
     public LocalDateTime getCreatedAt() {

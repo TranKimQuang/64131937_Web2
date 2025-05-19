@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "notifications")
 public class Notification {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "notification_id")
@@ -28,15 +29,17 @@ public class Notification {
     private Faculty faculty;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by", nullable = false)
+    @JoinColumn(name = "created_by_id", nullable = false)
     private User createdBy;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
-    // Constructors
-    protected Notification() {} // JPA requires protected/no-arg constructor
+    // Constructor mặc định
+    public Notification() {
+    }
 
+    // Constructor đầy đủ
     public Notification(String title, String content, LocalDateTime startDate, LocalDateTime endDate,
                        Faculty faculty, User createdBy) {
         if (title == null || title.trim().isEmpty()) {
@@ -62,40 +65,19 @@ public class Notification {
         this.createdAt = LocalDateTime.now();
     }
 
-    // Getters
+    // Getters and Setters
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public LocalDateTime getStartDate() {
-        return startDate;
-    }
-
-    public LocalDateTime getEndDate() {
-        return endDate;
-    }
-
-    public Faculty getFaculty() {
-        return faculty;
-    }
-
-    public User getCreatedBy() {
-        return createdBy;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    // Setters (only for fields that should be mutable)
     public void setTitle(String title) {
         if (title == null || title.trim().isEmpty()) {
             throw new IllegalArgumentException("Title cannot be null or empty");
@@ -103,16 +85,32 @@ public class Notification {
         this.title = title.trim();
     }
 
+    public String getContent() {
+        return content;
+    }
+
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public LocalDateTime getStartDate() {
+        return startDate;
     }
 
     public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
     }
 
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
+
     public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
+    }
+
+    public Faculty getFaculty() {
+        return faculty;
     }
 
     public void setFaculty(Faculty faculty) {
@@ -122,6 +120,10 @@ public class Notification {
         this.faculty = faculty;
     }
 
+    public User getCreatedBy() {
+        return createdBy;
+    }
+
     public void setCreatedBy(User createdBy) {
         if (createdBy == null) {
             throw new IllegalArgumentException("CreatedBy cannot be null");
@@ -129,17 +131,17 @@ public class Notification {
         this.createdBy = createdBy;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
     // Business logic
     public boolean isActive() {
         LocalDateTime now = LocalDateTime.now();
-        if (startDate == null && endDate == null) {
-            return true; // Mặc định active nếu không có thời gian
-        }
         return (startDate == null || now.isAfter(startDate)) &&
                (endDate == null || now.isBefore(endDate));
     }
 
-    // equals() and hashCode()
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -152,7 +154,6 @@ public class Notification {
         return getClass().hashCode();
     }
 
-    // toString()
     @Override
     public String toString() {
         return "Notification{" +
