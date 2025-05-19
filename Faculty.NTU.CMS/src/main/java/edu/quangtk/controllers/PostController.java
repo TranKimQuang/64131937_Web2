@@ -21,9 +21,9 @@ public class PostController {
     private final CategoryService categoryService;
 
     public PostController(PostService postService,
-                         FacultyService facultyService,
-                         UserService userService,
-                         CategoryService categoryService) {
+                          FacultyService facultyService,
+                          UserService userService,
+                          CategoryService categoryService) {
         this.postService = postService;
         this.facultyService = facultyService;
         this.userService = userService;
@@ -31,8 +31,8 @@ public class PostController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('FACULTY_ADMIN') or hasRole('EDITOR')")
-    public ResponseEntity<Post> createPost(
+    @PreAuthorize("hasRole('FACULTY_ADMIN')")
+    public ResponseEntity<?> createPost(
             @PathVariable Long facultyId,
             @RequestBody Post post,
             @AuthenticationPrincipal UserDetails userDetails) {
@@ -40,66 +40,77 @@ public class PostController {
             Faculty faculty = facultyService.getFacultyById(facultyId);
             User creator = userService.getUserByUsername(userDetails.getUsername());
 
+            // Kiểm tra quyền truy cập
+            if (!creator.getFaculty().getId().equals(facultyId)) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body("You do not have permission to create posts in this faculty.");
+            }
+
             post.setFaculty(faculty);
             post.setCreatedBy(creator);
             post.setCreatedAt(LocalDateTime.now());
-            post.setStatus(Post.Status.PENDING); // Sử dụng enum đúng từ Post.java
+            post.setUpdatedAt(LocalDateTime.now());
+            // Không cần set status vì bài viết được đăng ngay lập tức
 
             Post createdPost = postService.createPost(post);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdPost);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(null);
+                    .body("Failed to create post: " + e.getMessage());
         }
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('FACULTY_ADMIN') or hasRole('EDITOR')")
-    public ResponseEntity<List<Post>> getAllPosts(@PathVariable Long facultyId) {
+    @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('FACULTY_ADMIN')")
+    public ResponseEntity<?> getAllPosts(@PathVariable Long facultyId) {
         try {
             List<Post> posts = postService.getAllPostsByFaculty(facultyId);
             return ResponseEntity.ok(posts);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(null);
+                    .body("Failed to retrieve posts: " + e.getMessage());
         }
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('FACULTY_ADMIN') or hasRole('EDITOR')")
-    public ResponseEntity<Post> getPostById(
+    @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('FACULTY_ADMIN')")
+    public ResponseEntity<?> getPostById(
             @PathVariable Long facultyId,
             @PathVariable Long id) {
         try {
             Post post = postService.getPostById(id);
             if (!post.getFaculty().getId().equals(facultyId)) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body("You do not have permission to view this post.");
             }
             return ResponseEntity.ok(post);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Post not found: " + e.getMessage());
         }
     }
 
     @GetMapping("/slug/{slug}")
-    @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('FACULTY_ADMIN') or hasRole('EDITOR')")
-    public ResponseEntity<Post> getPostBySlug(
+    @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('FACULTY_ADMIN')")
+    public ResponseEntity<?> getPostBySlug(
             @PathVariable Long facultyId,
             @PathVariable String slug) {
         try {
             Post post = postService.getPostBySlug(slug);
             if (!post.getFaculty().getId().equals(facultyId)) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body("You do not have permission to view this post.");
             }
             return ResponseEntity.ok(post);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Post not found: " + e.getMessage());
         }
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('FACULTY_ADMIN') or hasRole('EDITOR')")
-    public ResponseEntity<Post> updatePost(
+    @PreAuthorize("hasRole('FACULTY_ADMIN')")
+    public ResponseEntity<?> updatePost(
             @PathVariable Long facultyId,
             @PathVariable Long id,
             @RequestBody Post postDetails,
@@ -107,7 +118,8 @@ public class PostController {
         try {
             Post existingPost = postService.getPostById(id);
             if (!existingPost.getFaculty().getId().equals(facultyId)) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body("You do not have permission to update this post.");
             }
 
             existingPost.setTitle(postDetails.getTitle());
@@ -119,60 +131,32 @@ public class PostController {
                 existingPost.setCategory(category);
             }
 
-            // Chỉ Editor hoặc Faculty Admin có thể đặt lại thành PENDING
-            if (existingPost.getStatus() == Post.Status.PUBLISHED) {
-                existingPost.setStatus(Post.Status.PENDING);
-                existingPost.setApprovedBy(null);
-            } else {
-                existingPost.setStatus(postDetails.getStatus());
-            }
-
+            existingPost.setUpdatedAt(LocalDateTime.now());
+           
             Post updatedPost = postService.updatePost(id, existingPost);
             return ResponseEntity.ok(updatedPost);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(null);
-        }
-    }
-
-    @PutMapping("/{id}/approve")
-    @PreAuthorize("hasRole('FACULTY_ADMIN')")
-    public ResponseEntity<Post> approvePost(
-            @PathVariable Long facultyId,
-            @PathVariable Long id,
-            @AuthenticationPrincipal UserDetails userDetails) {
-        try {
-            Post post = postService.getPostById(id);
-            if (!post.getFaculty().getId().equals(facultyId)) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
-            }
-
-            User approver = userService.getUserByUsername(userDetails.getUsername());
-            post.setApprovedBy(approver);
-            post.setStatus(Post.Status.PUBLISHED);
-
-            Post approvedPost = postService.updatePost(id, post);
-            return ResponseEntity.ok(approvedPost);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(null);
+                    .body("Failed to update post: " + e.getMessage());
         }
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('FACULTY_ADMIN')")
-    public ResponseEntity<Void> deletePost(
+    public ResponseEntity<?> deletePost(
             @PathVariable Long facultyId,
             @PathVariable Long id) {
         try {
             Post post = postService.getPostById(id);
             if (!post.getFaculty().getId().equals(facultyId)) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body("You do not have permission to delete this post.");
             }
             postService.deletePost(id);
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Failed to delete post: " + e.getMessage());
         }
     }
 }
