@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="categoryManagement">
+        <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <span th:text="${success}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <span th:text="${error}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <h3>Manage Categories</h3>
+        <form th:action="@{/facultyadmin/create-category}" method="post" th:object="${newCategory}">
+            <div class="mb-3">
+                <label class="form-label">Name</label>
+                <input type="text" class="form-control" th:field="*{name}" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Create Category</button>
+        </form>
+        <table class="table mt-4">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="cat : ${categories}">
+                    <td th:text="${cat.name}"></td>
+                    <td>
+                        <form th:action="@{/facultyadmin/update-category}" method="post">
+                            <input type="hidden" name="id" th:value="${cat.id}">
+                            <input type="text" class="form-control" name="name" th:value="${cat.name}" required>
+                            <button type="submit" class="btn btn-warning">Update</button>
+                        </form>
+                        <form th:action="@{/facultyadmin/delete-category}" method="post">
+                            <input type="hidden" name="id" th:value="${cat.id}">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

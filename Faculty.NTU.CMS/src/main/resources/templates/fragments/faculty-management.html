@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+    <div th:fragment="facultyManagement">
+        <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <span th:text="${success}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <span th:text="${error}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <h3>Manage Faculties</h3>
+        <form th:action="@{/superadmin/create-faculty}" method="post" th:object="${newFaculty}">
+            <div class="mb-3">
+                <label class="form-label">Name</label>
+                <input type="text" class="form-control" th:field="*{name}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Slug</label>
+                <input type="text" class="form-control" th:field="*{slug}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea class="form-control" th:field="*{description}"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Create Faculty</button>
+        </form>
+        <table class="table mt-4">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Slug</th>
+                    <th>Description</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="fac : ${faculties}">
+                    <td th:text="${fac.name}"></td>
+                    <td th:text="${fac.slug}"></td>
+                    <td th:text="${fac.description}"></td>
+                    <td>
+                        <form th:action="@{/superadmin/update-faculty}" method="post">
+                            <input type="hidden" name="id" th:value="${fac.id}">
+                            <input type="text" class="form-control" name="name" th:value="${fac.name}" required>
+                            <input type="text" class="form-control" name="slug" th:value="${fac.slug}" required>
+                            <textarea class="form-control" name="description" th:text="${fac.description}"></textarea>
+                            <button type="submit" class="btn btn-warning">Update</button>
+                        </form>
+                        <form th:action="@{/superadmin/delete-faculty}" method="post">
+                            <input type="hidden" name="id" th:value="${fac.id}">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
