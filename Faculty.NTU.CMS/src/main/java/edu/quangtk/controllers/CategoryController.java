@@ -1,6 +1,7 @@
 package edu.quangtk.controllers;
 
 import edu.quangtk.entity.Category;
+import edu.quangtk.entity.Faculty;
 import edu.quangtk.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +19,9 @@ public class CategoryController {
     @PostMapping
     @PreAuthorize("hasRole('FACULTY_ADMIN') or hasRole('EDITOR')")
     public ResponseEntity<Category> createCategory(
-            @PathVariable Long facultyId,
+            @PathVariable Faculty facultyId,
             @RequestBody Category category) {
-        category.setFacultyId(facultyId);
+        category.setFaculty(facultyId);
         return ResponseEntity.ok(categoryService.createCategory(category));
     }
 
@@ -36,7 +37,7 @@ public class CategoryController {
             @PathVariable Long facultyId,
             @PathVariable Long id) {
         Category category = categoryService.getCategoryById(id);
-        if (!category.getFacultyId().equals(facultyId)) {
+        if (!category.getFaculty().equals(facultyId)) {
             return ResponseEntity.status(403).body("Category does not belong to this faculty");
         }
         return ResponseEntity.ok(category);
@@ -45,14 +46,14 @@ public class CategoryController {
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('FACULTY_ADMIN') or hasRole('EDITOR')")
     public ResponseEntity<?> updateCategory(
-            @PathVariable Long facultyId,
+            @PathVariable Faculty facultyId,
             @PathVariable Long id,
             @RequestBody Category category) {
         Category existing = categoryService.getCategoryById(id);
-        if (!existing.getFacultyId().equals(facultyId)) {
+        if (!existing.getFaculty().equals(facultyId)) {
             return ResponseEntity.status(403).body("Category does not belong to this faculty");
         }
-        category.setFacultyId(facultyId);
+        category.setFaculty(facultyId);
         return ResponseEntity.ok(categoryService.updateCategory(id, category));
     }
 
@@ -62,7 +63,7 @@ public class CategoryController {
             @PathVariable Long facultyId,
             @PathVariable Long id) {
         Category category = categoryService.getCategoryById(id);
-        if (!category.getFacultyId().equals(facultyId)) {
+        if (!category.getFaculty().equals(facultyId)) {
             return ResponseEntity.status(403).body("Category does not belong to this faculty");
         }
         categoryService.deleteCategory(id);
