@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "users")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -24,21 +25,21 @@ public class User {
     private String email;
 
     @Column(nullable = false)
-    private String role; // SUPER_ADMIN, FACULTY_ADMIN, EDITOR
-
-    @ManyToOne
+    private String role; // SUPER_ADMIN, FACULTY_ADMIN, VIEWER
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "faculty_id")
     private Faculty faculty;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    // Constructors
+    // Constructor mặc định
     public User() {
     }
 
+    // Constructor đầy đủ
     public User(String username, String password, String fullName, 
-               String email, String role, Faculty faculty) {
+                String email, String role, Faculty faculty) {
         this.username = username;
         this.password = password;
         this.fullName = fullName;
@@ -57,8 +58,8 @@ public class User {
         return id;
     }
 
-    public void setId(Long userId) {
-        this.id = userId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -117,7 +118,6 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    // equals() and hashCode()
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -131,11 +131,10 @@ public class User {
         return getClass().hashCode();
     }
 
-    // toString() (không bao gồm password vì lý do bảo mật)
     @Override
     public String toString() {
         return "User{" +
-                "userId=" + id +
+                "id=" + id +
                 ", username='" + username + '\'' +
                 ", fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
