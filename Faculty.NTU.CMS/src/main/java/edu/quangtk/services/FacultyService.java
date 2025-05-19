@@ -24,18 +24,22 @@ public class FacultyService {
         return facultyRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Faculty not found with id: " + id));
     }
+    public long getFacultyCount() {
+        return facultyRepository.count();
+    }
+
 
     public Faculty getFacultyBySlug(String slug) {
         return facultyRepository.findBySlug(slug);
     }
 
-//    public Faculty updateFaculty(Long id, Faculty updatedFaculty) {
-//        Faculty faculty = getFacultyById(id);
-//        faculty.setName(updatedFaculty.getName());
-//        faculty.setSlug(updatedFaculty.getSlug());
-//        faculty.setDescription(updatedFaculty.getDescription());
-//        return facultyRepository.save(faculty);
-//    }
+    public Faculty updateFaculty(Long id, Faculty updatedFaculty) {
+        Faculty faculty = getFacultyById(id);
+        faculty.setName(updatedFaculty.getName());
+        faculty.setSlug(updatedFaculty.getSlug());
+        faculty.setDescription(updatedFaculty.getDescription());
+        return facultyRepository.save(faculty);
+    }
 
     public void deleteFaculty(Long id) {
         Faculty faculty = getFacultyById(id);

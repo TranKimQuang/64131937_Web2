@@ -30,7 +30,9 @@ public class UserService {
     public List<User> getAllUsers(Faculty facultyId) {
         return (facultyId != null) ? userRepository.findByFacultyId(facultyId) : userRepository.findAll();
     }
-
+    public long getUserCount() {
+        return userRepository.count();
+    }
     public User getUserById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
