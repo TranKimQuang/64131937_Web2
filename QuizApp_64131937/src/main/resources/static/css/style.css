@@ -1,7 +1,11 @@
+/* General Body & Container */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f4f7f6;
     color: #333;
+    line-height: 1.6;
+    padding-top: 100px; /* Vẫn giữ padding-top để nội dung không bị header che mất */
+    background: linear-gradient(to bottom, #007bff, #ffffff);
 }
 
 .container {
@@ -11,17 +15,46 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     margin-top: 30px;
     margin-bottom: 30px;
+    /* Dùng flexbox để quản lý bố cục theo cột */
+    display: flex;
+    flex-direction: column;
+    /* Đảm bảo container có chiều cao tối thiểu để pagination có thể "dính" xuống dưới */
+    min-height: calc(100vh - 180px); /* Ví dụ: Chiều cao viewport trừ đi header và margin */
+    /* Bạn có thể điều chỉnh giá trị 180px (tương đương tổng chiều cao của header, margin-top, margin-bottom của container và một chút khoảng trống) */
 }
 
+/* Headings */
 h1, h2, h3, h4, h5 {
     color: #007bff;
     margin-bottom: 20px;
+    font-weight: 600;
 }
 
+/* Forms */
 .form-group {
     margin-bottom: 20px;
 }
+label {
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+.form-control {
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    padding: 10px 12px;
+}
+.form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
 
+/* Buttons */
+.btn {
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
 .btn-primary {
     background-color: #007bff;
     border-color: #007bff;
@@ -30,7 +63,14 @@ h1, h2, h3, h4, h5 {
     background-color: #0056b3;
     border-color: #0056b3;
 }
-
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+.btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+}
 .btn-info {
     background-color: #17a2b8;
     border-color: #17a2b8;
@@ -39,7 +79,6 @@ h1, h2, h3, h4, h5 {
     background-color: #117a8b;
     border-color: #117a8b;
 }
-
 .btn-danger {
     background-color: #dc3545;
     border-color: #dc3545;
@@ -48,7 +87,6 @@ h1, h2, h3, h4, h5 {
     background-color: #bd2130;
     border-color: #bd2130;
 }
-
 .btn-success {
     background-color: #28a745;
     border-color: #28a745;
@@ -57,39 +95,121 @@ h1, h2, h3, h4, h5 {
     background-color: #218838;
     border-color: #1e7e34;
 }
-
-.alert {
-    margin-top: 20px;
+.btn-warning { /* For Edit */
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #212529;
+}
+.btn-warning:hover {
+    background-color: #e0a800;
+    border-color: #d39e00;
+}
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 0.875rem;
 }
 
+/* Alerts */
+.alert {
+    margin-top: 20px;
+    border-radius: 5px;
+}
+header {
+     background-color: #f1f3f5; /* xám nhạt hơn */
+     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+     position: fixed;
+     top: 0;
+     left: 0;
+     width: 100%;
+     padding: 10px;
+     z-index: 1000;
+     }
+
+ .navbar {
+     padding: 1rem 2rem;
+ }
+
+ .navbar.fixed-top {
+     z-index: 1030;
+ }
+
+ .navbar-brand {
+     font-weight: 700;
+     font-size: 1.75rem;
+     color: #343a40;
+ }
+
+ .nav-link {
+     font-size: 1.1rem;
+     font-weight: 500;
+     color: white !important;
+     margin-left: 1rem;
+     transition: color 0.2s ease-in-out;
+ }
+
+ .nav-link:hover {
+     color: #0d6efd !important;
+ }
+
+/* Tables */
+.table {
+    margin-top: 20px;
+    /* Đảm bảo bảng có thể chiếm hết không gian còn lại nếu cần */
+    flex-grow: 1; /* Cho phép bảng "phình" ra để chiếm không gian trống */
+}
 .table thead th {
     background-color: #007bff;
     color: white;
+    border-color: #007bff;
+    vertical-align: middle;
+}
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.075);
+}
+.table td, .table th {
+    vertical-align: middle;
 }
 
+/* Pagination */
 .pagination-controls {
-    margin-top: 20px;
+    /* Đây là phần quan trọng nhất để đẩy nó xuống dưới cùng của flex container */
+    margin-top: auto;
+    text-align: center;
+    padding-top: 20px; /* Khoảng cách giữa bảng và phân trang */
+    padding-bottom: 10px; /* Khoảng cách với đáy container */
+
+    display: flex; /* Bật flexbox cho pagination-controls để căn giữa các nút */
+    justify-content: center; /* Căn giữa các nút phân trang */
+    align-items: center;
+}
+
+.pagination-controls .pagination {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap; /* Cho phép xuống dòng trên màn hình nhỏ */
+}
+
+/* Khoảng cách giữa các nút */
+.pagination-controls .page-item {
+    margin: 0 4px; /* Giảm khoảng cách mặc định một chút */
+}
+
+/* Tăng khoảng cách cho nút "Đầu" và "Cuối" */
+.pagination-controls .page-item.first-last-button {
+    margin: 0 15px; /* Tạo khoảng cách lớn hơn */
+}
+
+/* Đảm bảo các nút điều hướng không bị co lại */
+.pagination-controls .page-item .page-link {
+    white-space: nowrap; /* Ngăn chữ bị ngắt dòng */
+    min-width: 40px; /* Đảm bảo chiều rộng tối thiểu cho các nút số */
     text-align: center;
 }
-.pagination-controls a, .pagination-controls span {
-    display: inline-block;
-    padding: 6px 12px;
-    margin: 0 4px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    text-decoration: none;
-    color: #007bff;
-}
-.pagination-controls .active-page {
-    background-color: #007bff;
-    color: white;
-    border-color: #007bff;
-}
-.pagination-controls a:hover:not(.active-page) {
-    background-color: #e9ecef;
-}
 
-/* Specific styles for quiz pages */
+/* Question Cards & Answers */
 .question-card {
     background-color: #f8f9fa;
     border: 1px solid #e2e6ea;
@@ -97,30 +217,88 @@ h1, h2, h3, h4, h5 {
     padding: 20px;
     margin-bottom: 20px;
 }
-
-.answer-group label {
+.answer-group {
+    border: 1px solid #e9ecef;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Khoảng cách giữa input và radio */
+}
+.answer-group input[type="text"] {
+    flex-grow: 1; /* Cho phép input chiếm phần lớn không gian */
+}
+.answer-group .form-check {
+    margin-right: 15px; /* Đẩy radio sang phải */
+    flex-shrink: 0; /* Ngăn radio bị co lại */
+}
+.answer-group .btn-danger {
+    margin-left: auto; /* Đẩy nút xóa sang phải cùng */
+    flex-shrink: 0;
+}
+.form-check-label {
     font-weight: normal;
+    margin-bottom: 0;
 }
 
+/* Result Page Specifics */
+.result-card {
+    padding: 20px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
 .correct-answer {
     color: #28a745;
     font-weight: bold;
 }
-
 .wrong-answer {
     color: #dc3545;
     font-weight: bold;
 }
-
 .submitted-answer {
     font-weight: bold;
     text-decoration: underline;
 }
+.result-detail-item {
+    padding: 10px 0;
+    border-bottom: 1px dashed #eee;
+}
+.result-detail-item:last-child {
+    border-bottom: none;
+}
+.result-detail-item .badge {
+    vertical-align: middle;
+}
+.result-detail-item .badge-success {
+    background-color: #28a745;
+}
+.result-detail-item .badge-primary {
+    background-color: #007bff;
+}
 
+/* Timer */
 .timer {
-    font-size: 1.5em;
+    font-size: 1.8em;
     font-weight: bold;
-    color: #dc3545;
+    color: #007bff;
     margin-bottom: 20px;
     text-align: center;
+    border: 2px solid #007bff;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #e7f3ff;
+}
+.timer.warning {
+    color: #ffc107;
+    border-color: #ffc107;
+    background-color: #fff3cd;
+}
+.timer.danger {
+    color: #dc3545;
+    border-color: #dc3545;
+    background-color: #f8d7da;
 }
