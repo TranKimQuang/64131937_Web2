@@ -4,12 +4,7 @@
     <meta charset="UTF-8">
     <title>Quản lý Kỳ thi (Admin)</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body { padding-top: 20px; }
-        .container { max-width: 960px; }
-        .form-group { margin-bottom: 15px; }
-        .table img { max-width: 50px; height: auto; }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 <div class="container">
@@ -36,11 +31,18 @@
     </form>
 
     <h3 class="mt-5">Danh sách Kỳ thi</h3>
+    <div class="mb-3">
+        <form th:action="@{/admin/exams}" method="get" class="form-inline">
+            <input type="text" name="search" th:value="${search}" class="form-control mr-2" placeholder="Tìm kiếm theo tiêu đề">
+            <button type="submit" class="btn btn-secondary">Tìm kiếm</button>
+        </form>
+    </div>
+
     <table class="table table-bordered table-striped mt-3">
         <thead class="thead-dark">
         <tr>
-            <th>ID</th>
-            <th>Tiêu đề</th>
+            <th><a th:href="@{/admin/exams(page=${currentPage}, size=${pageSize}, sortBy='id', sortDir=${sortDir == 'asc' ? 'desc' : 'asc'}, search=${search})}">ID</a></th>
+            <th><a th:href="@{/admin/exams(page=${currentPage}, size=${pageSize}, sortBy='title', sortDir=${sortDir == 'asc' ? 'desc' : 'asc'}, search=${search})}">Tiêu đề</a></th>
             <th>Mô tả</th>
             <th>Thời lượng (phút)</th>
             <th>Thời gian bắt đầu</th>
@@ -61,8 +63,31 @@
                 </form>
             </td>
         </tr>
+        <tr th:if="${#lists.isEmpty(exams)}">
+            <td colspan="6" class="text-center">Không tìm thấy kỳ thi nào.</td>
+        </tr>
         </tbody>
     </table>
+
+    <nav aria-label="Page navigation" class="pagination-controls">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
+                <a class="page-link" th:href="@{/admin/exams(page=0, size=${pageSize}, sortBy=${sortBy}, sortDir=${sortDir}, search=${search})}">Đầu</a>
+            </li>
+            <li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
+                <a class="page-link" th:href="@{/admin/exams(page=${currentPage - 1}, size=${pageSize}, sortBy=${sortBy}, sortDir=${sortDir}, search=${search})}">Trước</a>
+            </li>
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${i == currentPage ? 'active-page' : ''}">
+                <a class="page-link" th:href="@{/admin/exams(page=${i}, size=${pageSize}, sortBy=${sortBy}, sortDir=${sortDir}, search=${search})}" th:text="${i + 1}"></a>
+            </li>
+            <li class="page-item" th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
+                <a class="page-link" th:href="@{/admin/exams(page=${currentPage + 1}, size=${pageSize}, sortBy=${sortBy}, sortDir=${sortDir}, search=${search})}">Sau</a>
+            </li>
+            <li class="page-item" th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
+                <a class="page-link" th:href="@{/admin/exams(page=${totalPages - 1}, size=${pageSize}, sortBy=${sortBy}, sortDir=${sortDir}, search=${search})}">Cuối</a>
+            </li>
+        </ul>
+    </nav>
 </div>
 </body>
 </html>

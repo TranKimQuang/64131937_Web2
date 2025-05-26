@@ -4,19 +4,17 @@
     <meta charset="UTF-8">
     <title>Làm bài thi: <span th:text="${exam.title}"></span></title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body { padding-top: 20px; }
-        .container { max-width: 800px; }
-        .question-card { margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/js/main.js}">
 </head>
 <body>
 <div class="container">
     <h2 class="mb-4">Kỳ thi: <span th:text="${exam.title}"></span></h2>
     <p>Thời lượng: <span th:text="${exam.durationMinutes}"></span> phút</p>
+    <div class="timer" id="countdownTimer"></div>
     <hr>
 
-    <form th:action="@{/user/submit-exam/{id}(id=${exam.id})}" method="post">
+    <form th:action="@{/user/submit-exam/{id}(id=${exam.id})}" method="post" id="examForm">
         <div th:if="${#lists.isEmpty(questions)}" class="alert alert-warning">
             Kỳ thi này chưa có câu hỏi nào.
         </div>
@@ -31,5 +29,6 @@
         <button type="submit" class="btn btn-success mt-4">Nộp bài</button>
     </form>
 </div>
+
 </body>
 </html>

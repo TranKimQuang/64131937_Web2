@@ -4,12 +4,7 @@
     <meta charset="UTF-8">
     <title>Quản lý Câu hỏi cho Kỳ thi (Admin)</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body { padding-top: 20px; }
-        .container { max-width: 960px; }
-        .form-group { margin-bottom: 15px; }
-        .answer-group { margin-bottom: 10px; }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 <div class="container">
@@ -62,11 +57,18 @@
     </form>
 
     <h3 class="mt-5">Danh sách Câu hỏi</h3>
+    <div class="mb-3">
+        <form th:action="@{/admin/questions/{examId}(examId=${currentExam.id})}" method="get" class="form-inline">
+            <input type="text" name="search" th:value="${search}" class="form-control mr-2" placeholder="Tìm kiếm theo nội dung">
+            <button type="submit" class="btn btn-secondary">Tìm kiếm</button>
+        </form>
+    </div>
+
     <table class="table table-bordered table-striped mt-3">
         <thead class="thead-dark">
         <tr>
-            <th>ID</th>
-            <th>Nội dung câu hỏi</th>
+            <th><a th:href="@{/admin/questions/{examId}(examId=${currentExam.id}, page=${currentPage}, size=${pageSize}, sortBy='id', sortDir=${sortDir == 'asc' ? 'desc' : 'asc'}, search=${search})}">ID</a></th>
+            <th><a th:href="@{/admin/questions/{examId}(examId=${currentExam.id}, page=${currentPage}, size=${pageSize}, sortBy='content', sortDir=${sortDir == 'asc' ? 'desc' : 'asc'}, search=${search})}">Nội dung câu hỏi</a></th>
             <th>Đáp án</th>
             <th>Hành động</th>
         </tr>
@@ -83,13 +85,37 @@
                 </ul>
             </td>
             <td>
+                <a th:href="@{/admin/questions/edit/{id}(id=${question.id}, examId=${currentExam.id})}" class="btn btn-warning btn-sm">Sửa</a>
                 <form th:action="@{/admin/questions/delete/{id}(id=${question.id}, examId=${currentExam.id})}" method="post" style="display:inline;">
                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc muốn xóa câu hỏi này không?');">Xóa</button>
                 </form>
             </td>
         </tr>
+        <tr th:if="${#lists.isEmpty(questions)}">
+            <td colspan="4" class="text-center">Không tìm thấy câu hỏi nào.</td>
+        </tr>
         </tbody>
     </table>
+
+    <nav aria-label="Page navigation" class="pagination-controls">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
+                <a class="page-link" th:href="@{/admin/questions/{examId}(examId=${currentExam.id}, page=0, size=${pageSize}, sortBy=${sortBy}, sortDir=${sortDir}, search=${search})}">Đầu</a>
+            </li>
+            <li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
+                <a class="page-link" th:href="@{/admin/questions/{examId}(examId=${currentExam.id}, page=${currentPage - 1}, size=${pageSize}, sortBy=${sortBy}, sortDir=${sortDir}, search=${search})}">Trước</a>
+            </li>
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${i == currentPage ? 'active-page' : ''}">
+                <a class="page-link" th:href="@{/admin/questions/{examId}(examId=${currentExam.id}, page=${i}, size=${pageSize}, sortBy=${sortBy}, sortDir=${sortDir}, search=${search})}" th:text="${i + 1}"></a>
+            </li>
+            <li class="page-item" th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
+                <a class="page-link" th:href="@{/admin/questions/{examId}(examId=${currentExam.id}, page=${currentPage + 1}, size=${pageSize}, sortBy=${sortBy}, sortDir=${sortDir}, search=${search})}">Sau</a>
+            </li>
+            <li class="page-item" th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
+                <a class="page-link" th:href="@{/admin/questions/{examId}(examId=${currentExam.id}, page=${totalPages - 1}, size=${pageSize}, sortBy=${sortBy}, sortDir=${sortDir}, search=${search})}">Cuối</a>
+            </li>
+        </ul>
+    </nav>
 </div>
 </body>
 </html>
