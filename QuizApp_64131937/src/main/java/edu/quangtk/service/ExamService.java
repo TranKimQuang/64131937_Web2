@@ -3,6 +3,8 @@ package edu.quangtk.service;
 import edu.quangtk.model.Exam;
 import edu.quangtk.repository.ExamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,5 +30,12 @@ public class ExamService {
 
   public void deleteExamById(Long id) {
     examRepository.deleteById(id);
+  }
+  
+  public Page<Exam> findExams(String searchTerm, Pageable pageable) {
+    if (searchTerm != null && !searchTerm.trim().isEmpty()) {
+      return examRepository.findByTitleContainingIgnoreCase(searchTerm, pageable);
+    }
+    return examRepository.findAll(pageable);
   }
 }
