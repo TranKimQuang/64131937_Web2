@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Kết quả bài thi</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body { padding-top: 20px; }
+        .container { max-width: 600px; }
+        .result-card { padding: 20px; border: 1px solid #eee; border-radius: 5px; background-color: #f9f9f9; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2 class="mb-4">Kết quả bài thi: <span th:text="${exam.title}"></span></h2>
+
+    <div class="result-card">
+        <p>Tổng số câu hỏi: <strong th:text="${totalQuestions}"></strong></p>
+        <p>Số câu trả lời đúng: <strong th:text="${correctAnswers}"></strong></p>
+        <p>Điểm của bạn: <strong th:text="${#numbers.formatDecimal(score, 0, 'COMMA', 2, 'POINT')} + '%'"></strong></p>
+    </div>
+
+    <a th:href="@{/user/exams}" class="btn btn-primary mt-4">Quay lại danh sách kỳ thi</a>
+</div>
+</body>
+</html>

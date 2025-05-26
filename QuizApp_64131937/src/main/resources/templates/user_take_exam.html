@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Làm bài thi: <span th:text="${exam.title}"></span></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body { padding-top: 20px; }
+        .container { max-width: 800px; }
+        .question-card { margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2 class="mb-4">Kỳ thi: <span th:text="${exam.title}"></span></h2>
+    <p>Thời lượng: <span th:text="${exam.durationMinutes}"></span> phút</p>
+    <hr>
+
+    <form th:action="@{/user/submit-exam/{id}(id=${exam.id})}" method="post">
+        <div th:if="${#lists.isEmpty(questions)}" class="alert alert-warning">
+            Kỳ thi này chưa có câu hỏi nào.
+        </div>
+
+        <div th:each="question, questionStat : ${questions}" class="question-card">
+            <h5>Câu <span th:text="${questionStat.index + 1}"></span>: <span th:text="${question.content}"></span></h5>
+            <div th:each="answer : ${question.answers}" class="form-check">
+                <input type="radio" th:name="'question_' + ${question.id}" th:id="'answer_' + ${answer.id}" th:value="${answer.id}" class="form-check-input" required>
+                <label class="form-check-label" th:for="'answer_' + ${answer.id}" th:text="${answer.content}"></label>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success mt-4">Nộp bài</button>
+    </form>
+</div>
+</body>
+</html>
