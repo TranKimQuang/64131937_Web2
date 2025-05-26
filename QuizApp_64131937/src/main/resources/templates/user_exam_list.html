@@ -4,27 +4,30 @@
     <meta charset="UTF-8">
     <title>Danh sách Kỳ thi (User)</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body { padding-top: 20px; }
-        .container { max-width: 800px; }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 <div class="container">
     <h2 class="mb-4">Các Kỳ thi Sẵn có</h2>
 
     <div th:if="${#lists.isEmpty(exams)}" class="alert alert-info">
-        Hiện chưa có kỳ thi nào.
+        Hiện chưa có kỳ thi nào. Vui lòng liên hệ Admin để tạo kỳ thi.
     </div>
 
-    <div class="list-group">
-        <div th:each="exam : ${exams}" class="list-group-item list-group-item-action mb-3">
-            <h5 class="mb-1" th:text="${exam.title}"></h5>
-            <p class="mb-1" th:text="${exam.description}"></p>
-            <small class="text-muted">Thời lượng: <span th:text="${exam.durationMinutes}"></span> phút</small><br>
-            <small class="text-muted">Thời gian bắt đầu: <span th:text="${#temporals.format(exam.startTime, 'dd-MM-yyyy HH:mm')}"></span></small>
-            <div class="mt-2">
-                <a th:href="@{/user/take-exam/{id}(id=${exam.id})}" class="btn btn-primary btn-sm">Bắt đầu thi</a>
+    <div class="row">
+        <div th:each="exam : ${exams}" class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-primary" th:text="${exam.title}"></h5>
+                    <p class="card-text text-muted" th:text="${exam.description}"></p>
+                    <ul class="list-unstyled mb-0 small text-secondary">
+                        <li>Thời lượng: <strong th:text="${exam.durationMinutes}"></strong> phút</li>
+                        <li>Thời gian bắt đầu: <strong th:text="${#temporals.format(exam.startTime, 'dd-MM-yyyy HH:mm')}"></strong></li>
+                    </ul>
+                </div>
+                <div class="card-footer bg-white border-top-0">
+                    <a th:href="@{/user/take-exam/{id}(id=${exam.id})}" class="btn btn-primary btn-sm">Bắt đầu thi</a>
+                </div>
             </div>
         </div>
     </div>

@@ -5,10 +5,8 @@
     <title>Làm bài thi: <span th:text="${exam.title}"></span></title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" th:href="@{/css/style.css}">
-    <link rel="stylesheet" th:href="@{/js/main.js}">
 </head>
-<body>
-<div class="container">
+<body th:data-duration-seconds="${exam.durationMinutes * 60}"> <div class="container">
     <h2 class="mb-4">Kỳ thi: <span th:text="${exam.title}"></span></h2>
     <p>Thời lượng: <span th:text="${exam.durationMinutes}"></span> phút</p>
     <div class="timer" id="countdownTimer"></div>
@@ -29,6 +27,6 @@
         <button type="submit" class="btn btn-success mt-4">Nộp bài</button>
     </form>
 </div>
-
+<script th:src="@{/js/main.js}"></script>
 </body>
 </html>

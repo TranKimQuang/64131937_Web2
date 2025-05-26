@@ -5,18 +5,22 @@
     <title>Chỉnh sửa Câu hỏi (Admin)</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" th:href="@{/css/style.css}">
-</head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> </head>
 <body>
+<div th:replace="fragments/admin_header :: header"></div>
 <div class="container">
     <h2 class="mb-4">Chỉnh sửa Câu hỏi cho Kỳ thi: <span th:text="${currentExam.title}"></span></h2>
-    <a th:href="@{/admin/questions/{examId}(examId=${currentExam.id})}" class="btn btn-secondary mb-3">Quay lại quản lý câu hỏi</a>
+    <a th:href="@{/admin/questions/{examId}(examId=${currentExam.id})}" class="btn btn-secondary mb-3">
+        <i class="fas fa-arrow-left"></i> Quay lại quản lý câu hỏi
+    </a>
 
     <div th:if="${message}" class="alert alert-success" role="alert" th:text="${message}"></div>
     <div th:if="${error}" class="alert alert-danger" role="alert" th:text="${error}"></div>
 
     <h3>Chỉnh sửa Câu hỏi</h3>
     <form th:action="@{/admin/questions/save}" method="post">
-        <input type="hidden" name="id" th:value="${question.id}"> <input type="hidden" name="examId" th:value="${currentExam.id}">
+        <input type="hidden" name="id" th:value="${question.id}">
+        <input type="hidden" name="examId" th:value="${currentExam.id}">
 
         <div class="form-group">
             <label for="editQuestionContent">Nội dung câu hỏi:</label>
@@ -25,26 +29,28 @@
 
         <div class="form-group">
             <label>Các đáp án (chọn đáp án đúng):</label>
-            <div th:each="answer, stat : ${question.answers}" class="answer-group">
-                <input type="hidden" th:name="'answers[' + ${stat.index} + '].id'" th:value="${answer.id}">
-                <input type="text" th:name="'answerContent'" th:value="${answer.content}" class="form-control mb-2" th:placeholder="'Đáp án ' + (${stat.index} + 1)" required>
-                <div class="form-check">
-                    <input type="radio" th:name="isCorrect" th:id="'editAnswer' + ${stat.index}" th:value="${stat.index}" th:checked="${answer.correct}" class="form-check-input">
-                    <label class="form-check-label" th:for="'editAnswer' + ${stat.index}">Đây là đáp án đúng</label>
-                </div>
-            </div>
-            <div th:if="${question.answers.size() < 4}">
-                <div th:each="i : ${#numbers.sequence(question.answers.size(), 3)}" class="answer-group">
-                    <input type="text" name="answerContent" class="form-control mb-2" th:placeholder="'Đáp án ' + (${i} + 1)">
+            <div id="answersContainer">
+                <div th:each="answer, stat : ${question.answers}" class="answer-group">
+                    <input type="hidden" th:name="'answers[' + ${stat.index} + '].id'" th:value="${answer.id}">
+                    <input type="text" th:name="'answerContent'" th:value="${answer.content}" class="form-control" th:placeholder="'Đáp án ' + (${stat.index} + 1)" required>
                     <div class="form-check">
-                        <input type="radio" name="isCorrect" th:id="'editAnswer' + ${i}" th:value="${i}" class="form-check-input">
-                        <label class="form-check-label" th:for="'editAnswer' + ${i}">Đây là đáp án đúng</label>
+                        <input type="radio" name="isCorrect" th:id="'editAnswerRadio' + ${stat.index}" th:value="${stat.index}" th:checked="${answer.correct}" class="form-check-input">
+                        <label class="form-check-label" th:for="'editAnswerRadio' + ${stat.index}">Đúng</label>
                     </div>
+                    <button type="button" class="btn btn-sm btn-danger remove-answer-btn">
+                        <i class="fas fa-times"></i> Xóa
+                    </button>
                 </div>
             </div>
+            <button type="button" class="btn btn-secondary mt-2" id="addAnswerBtn">
+                <i class="fas fa-plus"></i> Thêm Đáp án
+            </button>
         </div>
-        <button type="submit" class="btn btn-primary">Cập nhật Câu hỏi</button>
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i> Cập nhật Câu hỏi
+        </button>
     </form>
 </div>
+<script th:src="@{/js/main.js}"></script>
 </body>
 </html>

@@ -5,11 +5,14 @@
     <title>Quản lý Câu hỏi cho Kỳ thi (Admin)</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" th:href="@{/css/style.css}">
-</head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> </head>
 <body>
+<div th:replace="fragments/admin_header :: header"></div>
 <div class="container">
     <h2 class="mb-4">Quản lý Câu hỏi cho Kỳ thi: <span th:text="${currentExam.title}"></span></h2>
-    <a th:href="@{/admin/exams}" class="btn btn-secondary mb-3">Quay lại danh sách kỳ thi</a>
+    <a th:href="@{/admin/exams}" class="btn btn-secondary mb-3">
+        <i class="fas fa-arrow-left"></i> Quay lại danh sách kỳ thi
+    </a>
 
     <div th:if="${message}" class="alert alert-success" role="alert" th:text="${message}"></div>
     <div th:if="${error}" class="alert alert-danger" role="alert" th:text="${error}"></div>
@@ -24,51 +27,72 @@
 
         <div class="form-group">
             <label>Các đáp án (chọn đáp án đúng):</label>
-            <div class="answer-group">
-                <input type="text" name="answerContent" class="form-control mb-2" placeholder="Đáp án 1" required>
-                <div class="form-check">
-                    <input type="radio" name="isCorrect" id="answer0" value="0" class="form-check-input">
-                    <label class="form-check-label" for="answer0">Đây là đáp án đúng</label>
+            <div id="answersContainer">
+                <div class="answer-group">
+                    <input type="text" name="answerContent" class="form-control" placeholder="Đáp án 1" required>
+                    <div class="form-check">
+                        <input type="radio" name="isCorrect" id="answerRadio0" value="0" class="form-check-input">
+                        <label class="form-check-label" for="answerRadio0">Đúng</label>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-danger remove-answer-btn">
+                        <i class="fas fa-times"></i> Xóa
+                    </button>
+                </div>
+                <div class="answer-group">
+                    <input type="text" name="answerContent" class="form-control" placeholder="Đáp án 2" required>
+                    <div class="form-check">
+                        <input type="radio" name="isCorrect" id="answerRadio1" value="1" class="form-check-input">
+                        <label class="form-check-label" for="answerRadio1">Đúng</label>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-danger remove-answer-btn">
+                        <i class="fas fa-times"></i> Xóa
+                    </button>
+                </div>
+                <div class="answer-group">
+                    <input type="text" name="answerContent" class="form-control" placeholder="Đáp án 3" required>
+                    <div class="form-check">
+                        <input type="radio" name="isCorrect" id="answerRadio2" value="2" class="form-check-input">
+                        <label class="form-check-label" for="answerRadio2">Đúng</label>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-danger remove-answer-btn">
+                        <i class="fas fa-times"></i> Xóa
+                    </button>
+                </div>
+                <div class="answer-group">
+                    <input type="text" name="answerContent" class="form-control" placeholder="Đáp án 4" required>
+                    <div class="form-check">
+                        <input type="radio" name="isCorrect" id="answerRadio3" value="3" class="form-check-input">
+                        <label class="form-check-label" for="answerRadio3">Đúng</label>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-danger remove-answer-btn">
+                        <i class="fas fa-times"></i> Xóa
+                    </button>
                 </div>
             </div>
-            <div class="answer-group">
-                <input type="text" name="answerContent" class="form-control mb-2" placeholder="Đáp án 2" required>
-                <div class="form-check">
-                    <input type="radio" name="isCorrect" id="answer1" value="1" class="form-check-input">
-                    <label class="form-check-label" for="answer1">Đây là đáp án đúng</label>
-                </div>
-            </div>
-            <div class="answer-group">
-                <input type="text" name="answerContent" class="form-control mb-2" placeholder="Đáp án 3" required>
-                <div class="form-check">
-                    <input type="radio" name="isCorrect" id="answer2" value="2" class="form-check-input">
-                    <label class="form-check-label" for="answer2">Đây là đáp án đúng</label>
-                </div>
-            </div>
-            <div class="answer-group">
-                <input type="text" name="answerContent" class="form-control mb-2" placeholder="Đáp án 4" required>
-                <div class="form-check">
-                    <input type="radio" name="isCorrect" id="answer3" value="3" class="form-check-input">
-                    <label class="form-check-label" for="answer3">Đây là đáp án đúng</label>
-                </div>
-            </div>
+            <button type="button" class="btn btn-secondary mt-2" id="addAnswerBtn">
+                <i class="fas fa-plus"></i> Thêm Đáp án
+            </button>
         </div>
-        <button type="submit" class="btn btn-primary">Lưu Câu hỏi</button>
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i> Lưu Câu hỏi
+        </button>
     </form>
 
     <h3 class="mt-5">Danh sách Câu hỏi</h3>
     <div class="mb-3">
         <form th:action="@{/admin/questions/{examId}(examId=${currentExam.id})}" method="get" class="form-inline">
             <input type="text" name="search" th:value="${search}" class="form-control mr-2" placeholder="Tìm kiếm theo nội dung">
-            <button type="submit" class="btn btn-secondary">Tìm kiếm</button>
+            <button type="submit" class="btn btn-secondary">
+                <i class="fas fa-search"></i> Tìm kiếm
+            </button>
         </form>
     </div>
 
-    <table class="table table-bordered table-striped mt-3">
+    <table class="table table-bordered table-striped table-hover mt-3">
         <thead class="thead-dark">
         <tr>
-            <th><a th:href="@{/admin/questions/{examId}(examId=${currentExam.id}, page=${currentPage}, size=${pageSize}, sortBy='id', sortDir=${sortDir == 'asc' ? 'desc' : 'asc'}, search=${search})}">ID</a></th>
-            <th><a th:href="@{/admin/questions/{examId}(examId=${currentExam.id}, page=${currentPage}, size=${pageSize}, sortBy='content', sortDir=${sortDir == 'asc' ? 'desc' : 'asc'}, search=${search})}">Nội dung câu hỏi</a></th>
+            <th><a th:href="@{/admin/questions/{examId}(examId=${currentExam.id}, page=${currentPage}, size=${pageSize}, sortBy='id', sortDir=${sortDir == 'asc' ? 'desc' : 'asc'}, search=${search})}">ID <i class="fas fa-sort"></i></a></th>
+            <th><a th:href="@{/admin/questions/{examId}(examId=${currentExam.id}, page=${currentPage}, size=${pageSize}, sortBy='content', sortDir=${sortDir == 'asc' ? 'desc' : 'asc'}, search=${search})}">Nội dung câu hỏi <i class="fas fa-sort"></i></a></th>
             <th>Đáp án</th>
             <th>Hành động</th>
         </tr>
@@ -80,14 +104,18 @@
                 <ul class="list-unstyled mt-2">
                     <li th:each="answer : ${question.answers}">
                         <span th:text="${answer.content}"></span>
-                        <span th:if="${answer.correct}" class="badge badge-success">Đúng</span>
+                        <span th:if="${answer.correct}" class="badge badge-success ml-2"><i class="fas fa-check"></i> Đúng</span>
                     </li>
                 </ul>
             </td>
             <td>
-                <a th:href="@{/admin/questions/edit/{id}(id=${question.id}, examId=${currentExam.id})}" class="btn btn-warning btn-sm">Sửa</a>
+                <a th:href="@{/admin/questions/edit/{id}(id=${question.id}, examId=${currentExam.id})}" class="btn btn-warning btn-sm">
+                    <i class="fas fa-edit"></i> Sửa
+                </a>
                 <form th:action="@{/admin/questions/delete/{id}(id=${question.id}, examId=${currentExam.id})}" method="post" style="display:inline;">
-                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc muốn xóa câu hỏi này không?');">Xóa</button>
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc muốn xóa câu hỏi này không?');">
+                        <i class="fas fa-trash-alt"></i> Xóa
+                    </button>
                 </form>
             </td>
         </tr>
@@ -100,22 +128,23 @@
     <nav aria-label="Page navigation" class="pagination-controls">
         <ul class="pagination justify-content-center">
             <li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
-                <a class="page-link" th:href="@{/admin/questions/{examId}(examId=${currentExam.id}, page=0, size=${pageSize}, sortBy=${sortBy}, sortDir=${sortDir}, search=${search})}">Đầu</a>
+                <a class="page-link" th:href="@{/admin/questions/{examId}(examId=${currentExam.id}, page=0, size=${pageSize}, sortBy=${sortBy}, sortDir=${sortDir}, search=${search})}"><i class="fas fa-angle-double-left"></i> Đầu</a>
             </li>
             <li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
-                <a class="page-link" th:href="@{/admin/questions/{examId}(examId=${currentExam.id}, page=${currentPage - 1}, size=${pageSize}, sortBy=${sortBy}, sortDir=${sortDir}, search=${search})}">Trước</a>
+                <a class="page-link" th:href="@{/admin/questions/{examId}(examId=${currentExam.id}, page=${currentPage - 1}, size=${pageSize}, sortBy=${sortBy}, sortDir=${sortDir}, search=${search})}"><i class="fas fa-angle-left"></i> Trước</a>
             </li>
-            <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${i == currentPage ? 'active-page' : ''}">
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${i == currentPage ? 'active' : ''}">
                 <a class="page-link" th:href="@{/admin/questions/{examId}(examId=${currentExam.id}, page=${i}, size=${pageSize}, sortBy=${sortBy}, sortDir=${sortDir}, search=${search})}" th:text="${i + 1}"></a>
             </li>
             <li class="page-item" th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
-                <a class="page-link" th:href="@{/admin/questions/{examId}(examId=${currentExam.id}, page=${currentPage + 1}, size=${pageSize}, sortBy=${sortBy}, sortDir=${sortDir}, search=${search})}">Sau</a>
+                <a class="page-link" th:href="@{/admin/questions/{examId}(examId=${currentExam.id}, page=${currentPage + 1}, size=${pageSize}, sortBy=${sortBy}, sortDir=${sortDir}, search=${search})}">Sau <i class="fas fa-angle-right"></i></a>
             </li>
             <li class="page-item" th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
-                <a class="page-link" th:href="@{/admin/questions/{examId}(examId=${currentExam.id}, page=${totalPages - 1}, size=${pageSize}, sortBy=${sortBy}, sortDir=${sortDir}, search=${search})}">Cuối</a>
+                <a class="page-link" th:href="@{/admin/questions/{examId}(examId=${currentExam.id}, page=${totalPages - 1}, size=${pageSize}, sortBy=${sortBy}, sortDir=${sortDir}, search=${search})}">Cuối <i class="fas fa-angle-double-right"></i></a>
             </li>
         </ul>
     </nav>
 </div>
+<script th:src="@{/js/main.js}"></script>
 </body>
 </html>
