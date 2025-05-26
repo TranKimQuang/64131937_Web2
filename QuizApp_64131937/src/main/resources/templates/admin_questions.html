@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý Câu hỏi cho Kỳ thi (Admin)</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body { padding-top: 20px; }
+        .container { max-width: 960px; }
+        .form-group { margin-bottom: 15px; }
+        .answer-group { margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2 class="mb-4">Quản lý Câu hỏi cho Kỳ thi: <span th:text="${currentExam.title}"></span></h2>
+    <a th:href="@{/admin/exams}" class="btn btn-secondary mb-3">Quay lại danh sách kỳ thi</a>
+
+    <div th:if="${message}" class="alert alert-success" role="alert" th:text="${message}"></div>
+    <div th:if="${error}" class="alert alert-danger" role="alert" th:text="${error}"></div>
+
+    <h3>Thêm Câu hỏi Mới</h3>
+    <form th:action="@{/admin/questions/save}" method="post">
+        <input type="hidden" name="examId" th:value="${currentExam.id}">
+        <div class="form-group">
+            <label for="questionContent">Nội dung câu hỏi:</label>
+            <textarea id="questionContent" name="content" class="form-control" rows="3" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Các đáp án (chọn đáp án đúng):</label>
+            <div class="answer-group">
+                <input type="text" name="answerContent" class="form-control mb-2" placeholder="Đáp án 1" required>
+                <div class="form-check">
+                    <input type="radio" name="isCorrect" id="answer0" value="0" class="form-check-input">
+                    <label class="form-check-label" for="answer0">Đây là đáp án đúng</label>
+                </div>
+            </div>
+            <div class="answer-group">
+                <input type="text" name="answerContent" class="form-control mb-2" placeholder="Đáp án 2" required>
+                <div class="form-check">
+                    <input type="radio" name="isCorrect" id="answer1" value="1" class="form-check-input">
+                    <label class="form-check-label" for="answer1">Đây là đáp án đúng</label>
+                </div>
+            </div>
+            <div class="answer-group">
+                <input type="text" name="answerContent" class="form-control mb-2" placeholder="Đáp án 3" required>
+                <div class="form-check">
+                    <input type="radio" name="isCorrect" id="answer2" value="2" class="form-check-input">
+                    <label class="form-check-label" for="answer2">Đây là đáp án đúng</label>
+                </div>
+            </div>
+            <div class="answer-group">
+                <input type="text" name="answerContent" class="form-control mb-2" placeholder="Đáp án 4" required>
+                <div class="form-check">
+                    <input type="radio" name="isCorrect" id="answer3" value="3" class="form-check-input">
+                    <label class="form-check-label" for="answer3">Đây là đáp án đúng</label>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Lưu Câu hỏi</button>
+    </form>
+
+    <h3 class="mt-5">Danh sách Câu hỏi</h3>
+    <table class="table table-bordered table-striped mt-3">
+        <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>Nội dung câu hỏi</th>
+            <th>Đáp án</th>
+            <th>Hành động</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="question : ${questions}">
+            <td th:text="${question.id}"></td>
+            <td><span th:text="${question.content}"></span>
+                <ul class="list-unstyled mt-2">
+                    <li th:each="answer : ${question.answers}">
+                        <span th:text="${answer.content}"></span>
+                        <span th:if="${answer.correct}" class="badge badge-success">Đúng</span>
+                    </li>
+                </ul>
+            </td>
+            <td>
+                <form th:action="@{/admin/questions/delete/{id}(id=${question.id}, examId=${currentExam.id})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc muốn xóa câu hỏi này không?');">Xóa</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

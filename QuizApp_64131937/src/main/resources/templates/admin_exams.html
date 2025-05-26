@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý Kỳ thi (Admin)</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body { padding-top: 20px; }
+        .container { max-width: 960px; }
+        .form-group { margin-bottom: 15px; }
+        .table img { max-width: 50px; height: auto; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2 class="mb-4">Quản lý Kỳ thi</h2>
+
+    <div th:if="${message}" class="alert alert-success" role="alert" th:text="${message}"></div>
+    <div th:if="${error}" class="alert alert-danger" role="alert" th:text="${error}"></div>
+
+    <h3>Thêm Kỳ thi Mới</h3>
+    <form th:action="@{/admin/exams}" th:object="${exam}" method="post">
+        <div class="form-group">
+            <label for="title">Tiêu đề:</label>
+            <input type="text" id="title" th:field="*{title}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Mô tả:</label>
+            <textarea id="description" th:field="*{description}" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="durationMinutes">Thời lượng (phút):</label>
+            <input type="number" id="durationMinutes" th:field="*{durationMinutes}" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Lưu Kỳ thi</button>
+    </form>
+
+    <h3 class="mt-5">Danh sách Kỳ thi</h3>
+    <table class="table table-bordered table-striped mt-3">
+        <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>Tiêu đề</th>
+            <th>Mô tả</th>
+            <th>Thời lượng (phút)</th>
+            <th>Thời gian bắt đầu</th>
+            <th>Hành động</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="exam : ${exams}">
+            <td th:text="${exam.id}"></td>
+            <td th:text="${exam.title}"></td>
+            <td th:text="${exam.description}"></td>
+            <td th:text="${exam.durationMinutes}"></td>
+            <td th:text="${#temporals.format(exam.startTime, 'dd-MM-yyyy HH:mm')}"></td>
+            <td>
+                <a th:href="@{/admin/questions/{examId}(examId=${exam.id})}" class="btn btn-info btn-sm">Quản lý Câu hỏi</a>
+                <form th:action="@{/admin/exams/delete/{id}(id=${exam.id})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc muốn xóa kỳ thi này không?');">Xóa</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
