@@ -1,3 +1,4 @@
+// src/main/java/edu/quangtk/controller/AdminController.java
 package edu.quangtk.controller;
 
 import edu.quangtk.model.Answer;
@@ -29,14 +30,14 @@ public class AdminController {
     @Autowired
     private QuestionService questionService;
 
-    // --- Quản lý Kỳ thi ---
+    // --- Quản lý Kỳ thi (Danh sách) ---
     @GetMapping("/exams")
-    public String manageExams(Model model,
-                              @RequestParam(defaultValue = "0") int page,
-                              @RequestParam(defaultValue = "10") int size,
-                              @RequestParam(defaultValue = "id") String sortBy,
-                              @RequestParam(defaultValue = "asc") String sortDir,
-                              @RequestParam(required = false) String search) { // Thêm tham số search
+    public String listExams(Model model,
+                            @RequestParam(defaultValue = "0") int page,
+                            @RequestParam(defaultValue = "10") int size,
+                            @RequestParam(defaultValue = "id") String sortBy,
+                            @RequestParam(defaultValue = "asc") String sortDir,
+                            @RequestParam(required = false) String search) {
         Sort sort = Sort.by(Sort.Direction.fromString(sortDir), sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
 
@@ -49,20 +50,27 @@ public class AdminController {
         model.addAttribute("pageSize", size);
         model.addAttribute("sortBy", sortBy);
         model.addAttribute("sortDir", sortDir);
-        model.addAttribute("search", search); // Giữ lại giá trị tìm kiếm trên form
-        model.addAttribute("exam", new Exam()); // Để tạo form thêm mới
+        model.addAttribute("search", search);
 
-        return "admin_exams";
+        return "admin_exams_list"; // New template for listing exams
     }
 
-    @PostMapping("/exams")
+    // --- Tạo Kỳ thi mới (Hiển thị form) ---
+    @GetMapping("/exams/create")
+    public String showCreateExamForm(Model model) {
+        model.addAttribute("exam", new Exam()); // Provide a new Exam object for the form
+        return "admin_exams_create"; // New template for creating exams
+    }
+
+    // --- Lưu Kỳ thi (cho cả tạo mới và cập nhật) ---
+    @PostMapping("/exams/save")
     public String saveExam(@ModelAttribute Exam exam, RedirectAttributes redirectAttributes) {
         if (exam.getStartTime() == null) {
-            exam.setStartTime(LocalDateTime.now()); // Đặt thời gian mặc định nếu không có từ form
+            exam.setStartTime(LocalDateTime.now());
         }
         examService.saveExam(exam);
         redirectAttributes.addFlashAttribute("message", "Kỳ thi đã được lưu thành công!");
-        return "redirect:/admin/exams";
+        return "redirect:/admin/exams"; // Redirect to the list page after saving
     }
 
     @PostMapping("/exams/delete/{id}")
@@ -72,14 +80,14 @@ public class AdminController {
         return "redirect:/admin/exams";
     }
 
-    // --- Quản lý Câu hỏi ---
+    // --- Quản lý Câu hỏi (không thay đổi) ---
     @GetMapping("/questions/{examId}")
     public String manageQuestionsByExam(@PathVariable Long examId, Model model,
                                         @RequestParam(defaultValue = "0") int page,
                                         @RequestParam(defaultValue = "10") int size,
                                         @RequestParam(defaultValue = "id") String sortBy,
                                         @RequestParam(defaultValue = "asc") String sortDir,
-                                        @RequestParam(required = false) String search) { // Thêm tham số search
+                                        @RequestParam(required = false) String search) {
         Optional<Exam> examOptional = examService.findExamById(examId);
         if (examOptional.isEmpty()) {
             return "redirect:/admin/exams";
@@ -99,13 +107,12 @@ public class AdminController {
         model.addAttribute("pageSize", size);
         model.addAttribute("sortBy", sortBy);
         model.addAttribute("sortDir", sortDir);
-        model.addAttribute("search", search); // Giữ lại giá trị tìm kiếm trên form
-        model.addAttribute("question", new Question()); // Để tạo form thêm mới
+        model.addAttribute("search", search);
+        model.addAttribute("question", new Question());
 
         return "admin_questions";
     }
 
-    // Xử lý lưu (thêm mới hoặc cập nhật) câu hỏi
     @PostMapping("/questions/save")
     public String saveQuestion(@ModelAttribute Question question,
                                @RequestParam("examId") Long examId,
@@ -125,7 +132,7 @@ public class AdminController {
             Answer answer = new Answer();
             answer.setContent(answerContents[i]);
             answer.setCorrect(i == correctAnswerIndex);
-            answer.setQuestion(question); // Gán Question tạm thời, quan hệ sẽ được xử lý khi lưu
+            answer.setQuestion(question);
             question.getAnswers().add(answer);
         }
         questionService.saveQuestion(question);
@@ -133,23 +140,21 @@ public class AdminController {
         return "redirect:/admin/questions/" + examId;
     }
 
-    // Hiển thị form chỉnh sửa câu hỏi
     @GetMapping("/questions/edit/{id}")
     public String editQuestion(@PathVariable Long id, @RequestParam("examId") Long examId, Model model) {
         Optional<Question> questionOptional = questionService.findQuestionById(id);
         Optional<Exam> examOptional = examService.findExamById(examId);
 
         if (questionOptional.isEmpty() || examOptional.isEmpty()) {
-            return "redirect:/admin/questions/" + examId; // Hoặc trang lỗi
+            return "redirect:/admin/questions/" + examId;
         }
         model.addAttribute("question", questionOptional.get());
         model.addAttribute("currentExam", examOptional.get());
-        model.addAttribute("editMode", true); // Đánh dấu là chế độ chỉnh sửa
+        model.addAttribute("editMode", true);
 
-        // Cần lấy tất cả exams cho dropdown khi chỉnh sửa (nếu muốn thay đổi exam của câu hỏi)
         model.addAttribute("exams", examService.findAllExams());
 
-        return "admin_questions_edit"; // Tạo một template mới cho chỉnh sửa
+        return "admin_questions_edit";
     }
 
     @PostMapping("/questions/delete/{id}")
