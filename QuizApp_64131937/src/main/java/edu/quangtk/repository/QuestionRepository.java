@@ -11,5 +11,6 @@ import java.util.List;
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Long> {
   List<Question> findByExamId(Long examId);
+  Page<Question> findByExamId(Long examId, Pageable pageable);
   Page<Question> findByExamIdAndContentContainingIgnoreCase(Long examId, String content, Pageable pageable);
 }

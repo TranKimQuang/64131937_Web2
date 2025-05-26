@@ -31,7 +31,7 @@ public class ExamService {
   public void deleteExamById(Long id) {
     examRepository.deleteById(id);
   }
-  
+
   public Page<Exam> findExams(String searchTerm, Pageable pageable) {
     if (searchTerm != null && !searchTerm.trim().isEmpty()) {
       return examRepository.findByTitleContainingIgnoreCase(searchTerm, pageable);

@@ -5,6 +5,8 @@ import edu.quangtk.model.Question;
 import edu.quangtk.repository.AnswerRepository;
 import edu.quangtk.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +19,7 @@ public class QuestionService {
     private QuestionRepository questionRepository;
 
     @Autowired
-    private AnswerRepository answerRepository; // Để lưu các đáp án con
+    private AnswerRepository answerRepository;
 
     public List<Question> findAllQuestions() {
         return questionRepository.findAll();
@@ -40,6 +42,10 @@ public class QuestionService {
             for (Answer answer : question.getAnswers()) {
                 answer.setQuestion(savedQuestion);
             }
+            // Xóa các đáp án cũ nếu có trước khi lưu mới (cho trường hợp chỉnh sửa)
+            if (question.getId() != null) { // Nếu là chỉnh sửa câu hỏi
+                answerRepository.deleteAll(answerRepository.findByQuestionId(savedQuestion.getId()));
+            }
             answerRepository.saveAll(question.getAnswers());
         }
         return savedQuestion;
@@ -47,5 +53,13 @@ public class QuestionService {
 
     public void deleteQuestionById(Long id) {
         questionRepository.deleteById(id);
+    }
+
+
+    public Page<Question> findQuestionsByExamId(Long examId, String searchTerm, Pageable pageable) {
+        if (searchTerm != null && !searchTerm.trim().isEmpty()) {
+            return questionRepository.findByExamIdAndContentContainingIgnoreCase(examId, searchTerm, pageable);
+        }
+        return questionRepository.findByExamId(examId, pageable);
     }
 }
