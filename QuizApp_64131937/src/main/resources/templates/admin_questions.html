@@ -2,14 +2,15 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Quản lý Câu hỏi cho Kỳ thi (Admin)</title>
+    <title>Thêm Câu hỏi cho Kỳ thi (Admin)</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" th:href="@{/css/style.css}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> </head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
 <body>
 <div th:replace="fragments/admin_header :: header"></div>
 <div class="container">
-    <h2 class="mb-4">Quản lý Câu hỏi cho Kỳ thi: <span th:text="${currentExam.title}"></span></h2>
+    <h2 class="mb-4">Thêm Câu hỏi cho Kỳ thi: <span th:text="${currentExam.title}"></span></h2>
     <a th:href="@{/admin/exams}" class="btn btn-secondary mb-3">
         <i class="fas fa-arrow-left"></i> Quay lại danh sách kỳ thi
     </a>
@@ -77,73 +78,6 @@
             <i class="fas fa-save"></i> Lưu Câu hỏi
         </button>
     </form>
-
-    <h3 class="mt-5">Danh sách Câu hỏi</h3>
-    <div class="mb-3">
-        <form th:action="@{/admin/questions/{examId}(examId=${currentExam.id})}" method="get" class="form-inline">
-            <input type="text" name="search" th:value="${search}" class="form-control mr-2" placeholder="Tìm kiếm theo nội dung">
-            <button type="submit" class="btn btn-secondary">
-                <i class="fas fa-search"></i> Tìm kiếm
-            </button>
-        </form>
-    </div>
-
-    <table class="table table-bordered table-striped table-hover mt-3">
-        <thead class="thead-dark">
-        <tr>
-            <th><a th:href="@{/admin/questions/{examId}(examId=${currentExam.id}, page=${currentPage}, size=${pageSize}, sortBy='id', sortDir=${sortDir == 'asc' ? 'desc' : 'asc'}, search=${search})}">ID <i class="fas fa-sort"></i></a></th>
-            <th><a th:href="@{/admin/questions/{examId}(examId=${currentExam.id}, page=${currentPage}, size=${pageSize}, sortBy='content', sortDir=${sortDir == 'asc' ? 'desc' : 'asc'}, search=${search})}">Nội dung câu hỏi <i class="fas fa-sort"></i></a></th>
-            <th>Đáp án</th>
-            <th>Hành động</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="question : ${questions}">
-            <td th:text="${question.id}"></td>
-            <td><span th:text="${question.content}"></span>
-                <ul class="list-unstyled mt-2">
-                    <li th:each="answer : ${question.answers}">
-                        <span th:text="${answer.content}"></span>
-                        <span th:if="${answer.correct}" class="badge badge-success ml-2"><i class="fas fa-check"></i> Đúng</span>
-                    </li>
-                </ul>
-            </td>
-            <td>
-                <a th:href="@{/admin/questions/edit/{id}(id=${question.id}, examId=${currentExam.id})}" class="btn btn-warning btn-sm">
-                    <i class="fas fa-edit"></i> Sửa
-                </a>
-                <form th:action="@{/admin/questions/delete/{id}(id=${question.id}, examId=${currentExam.id})}" method="post" style="display:inline;">
-                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc muốn xóa câu hỏi này không?');">
-                        <i class="fas fa-trash-alt"></i> Xóa
-                    </button>
-                </form>
-            </td>
-        </tr>
-        <tr th:if="${#lists.isEmpty(questions)}">
-            <td colspan="4" class="text-center">Không tìm thấy câu hỏi nào.</td>
-        </tr>
-        </tbody>
-    </table>
-
-    <nav aria-label="Page navigation" class="pagination-controls">
-        <ul class="pagination justify-content-center">
-            <li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
-                <a class="page-link" th:href="@{/admin/questions/{examId}(examId=${currentExam.id}, page=0, size=${pageSize}, sortBy=${sortBy}, sortDir=${sortDir}, search=${search})}"><i class="fas fa-angle-double-left"></i> Đầu</a>
-            </li>
-            <li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
-                <a class="page-link" th:href="@{/admin/questions/{examId}(examId=${currentExam.id}, page=${currentPage - 1}, size=${pageSize}, sortBy=${sortBy}, sortDir=${sortDir}, search=${search})}"><i class="fas fa-angle-left"></i> Trước</a>
-            </li>
-            <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${i == currentPage ? 'active' : ''}">
-                <a class="page-link" th:href="@{/admin/questions/{examId}(examId=${currentExam.id}, page=${i}, size=${pageSize}, sortBy=${sortBy}, sortDir=${sortDir}, search=${search})}" th:text="${i + 1}"></a>
-            </li>
-            <li class="page-item" th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
-                <a class="page-link" th:href="@{/admin/questions/{examId}(examId=${currentExam.id}, page=${currentPage + 1}, size=${pageSize}, sortBy=${sortBy}, sortDir=${sortDir}, search=${search})}">Sau <i class="fas fa-angle-right"></i></a>
-            </li>
-            <li class="page-item" th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
-                <a class="page-link" th:href="@{/admin/questions/{examId}(examId=${currentExam.id}, page=${totalPages - 1}, size=${pageSize}, sortBy=${sortBy}, sortDir=${sortDir}, search=${search})}">Cuối <i class="fas fa-angle-double-right"></i></a>
-            </li>
-        </ul>
-    </nav>
 </div>
 <script th:src="@{/js/main.js}"></script>
 </body>

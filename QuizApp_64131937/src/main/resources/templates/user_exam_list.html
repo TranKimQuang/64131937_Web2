@@ -7,8 +7,9 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
+<div th:replace="fragments/user_header :: header"></div>
 <div class="container">
-    <h2 class="mb-4">Các Kỳ thi Sẵn có</h2>
+    <h2 class="mb-4">Các kì thi đang diễn ra</h2>
 
     <div th:if="${#lists.isEmpty(exams)}" class="alert alert-info">
         Hiện chưa có kỳ thi nào. Vui lòng liên hệ Admin để tạo kỳ thi.

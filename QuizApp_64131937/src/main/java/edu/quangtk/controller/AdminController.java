@@ -1,4 +1,3 @@
-// src/main/java/edu/quangtk/controller/AdminController.java
 package edu.quangtk.controller;
 
 import edu.quangtk.model.Answer;
@@ -52,14 +51,14 @@ public class AdminController {
         model.addAttribute("sortDir", sortDir);
         model.addAttribute("search", search);
 
-        return "admin_exams_list"; // New template for listing exams
+        return "admin_exams_list";
     }
 
     // --- Tạo Kỳ thi mới (Hiển thị form) ---
     @GetMapping("/exams/create")
     public String showCreateExamForm(Model model) {
-        model.addAttribute("exam", new Exam()); // Provide a new Exam object for the form
-        return "admin_exams_create"; // New template for creating exams
+        model.addAttribute("exam", new Exam());
+        return "admin_exams_create";
     }
 
     // --- Lưu Kỳ thi (cho cả tạo mới và cập nhật) ---
@@ -70,9 +69,10 @@ public class AdminController {
         }
         examService.saveExam(exam);
         redirectAttributes.addFlashAttribute("message", "Kỳ thi đã được lưu thành công!");
-        return "redirect:/admin/exams"; // Redirect to the list page after saving
+        return "redirect:/admin/exams";
     }
 
+    // --- Xóa Kỳ thi ---
     @PostMapping("/exams/delete/{id}")
     public String deleteExam(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         examService.deleteExamById(id);
@@ -80,7 +80,20 @@ public class AdminController {
         return "redirect:/admin/exams";
     }
 
-    // --- Quản lý Câu hỏi (không thay đổi) ---
+    // --- Hiển thị form thêm câu hỏi ---
+    @GetMapping("/questions/add")
+    public String showAddQuestionForm(@RequestParam("examId") Long examId, Model model) {
+        Optional<Exam> examOptional = examService.findExamById(examId);
+        if (examOptional.isEmpty()) {
+            return "redirect:/admin/exams";
+        }
+        Exam exam = examOptional.get();
+        model.addAttribute("currentExam", exam);
+        model.addAttribute("question", new Question());
+        return "admin_questions";
+    }
+
+    // --- Quản lý Câu hỏi (Danh sách) ---
     @GetMapping("/questions/{examId}")
     public String manageQuestionsByExam(@PathVariable Long examId, Model model,
                                         @RequestParam(defaultValue = "0") int page,
@@ -108,18 +121,17 @@ public class AdminController {
         model.addAttribute("sortBy", sortBy);
         model.addAttribute("sortDir", sortDir);
         model.addAttribute("search", search);
-        model.addAttribute("question", new Question());
 
-        return "admin_questions";
+        return "admin_questions_list";
     }
 
+    // --- Lưu câu hỏi ---
     @PostMapping("/questions/save")
     public String saveQuestion(@ModelAttribute Question question,
                                @RequestParam("examId") Long examId,
                                @RequestParam("answerContent") String[] answerContents,
                                @RequestParam("isCorrect") int correctAnswerIndex,
                                RedirectAttributes redirectAttributes) {
-
         Optional<Exam> examOptional = examService.findExamById(examId);
         if (examOptional.isEmpty()) {
             redirectAttributes.addFlashAttribute("error", "Kỳ thi không tồn tại!");
@@ -140,6 +152,7 @@ public class AdminController {
         return "redirect:/admin/questions/" + examId;
     }
 
+    // --- Chỉnh sửa câu hỏi ---
     @GetMapping("/questions/edit/{id}")
     public String editQuestion(@PathVariable Long id, @RequestParam("examId") Long examId, Model model) {
         Optional<Question> questionOptional = questionService.findQuestionById(id);
@@ -151,12 +164,12 @@ public class AdminController {
         model.addAttribute("question", questionOptional.get());
         model.addAttribute("currentExam", examOptional.get());
         model.addAttribute("editMode", true);
-
         model.addAttribute("exams", examService.findAllExams());
 
         return "admin_questions_edit";
     }
 
+    // --- Xóa câu hỏi ---
     @PostMapping("/questions/delete/{id}")
     public String deleteQuestion(@PathVariable Long id, @RequestParam("examId") Long examId, RedirectAttributes redirectAttributes) {
         questionService.deleteQuestionById(id);
