@@ -1,34 +1,25 @@
-<!-- fragments/user_header.html -->
-<div th:fragment="header" xmlns:th="http://www.w3.org/1999/xhtml">
-    <header>
-        <h1 class="welcome-text">Chào mừng đến với web thi trắc nghiệm</h1>
-    </header>
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<header class="header" th:fragment="header">
+    <div class="header-left-section"> <div class="header-logo">
+        <a href="/user/exams">
+            <img th:src="@{/logo/logo1.png}" alt="EduQuiz Logo">
+        </a>
+    </div>
+        <div class="header-nav-item">
+            <a class="nav-link" th:href="@{/admin/exams}"><i class="fas fa-list-alt"></i> Quản lý kỳ thi</a>
+        </div>
+    </div>
 
-    <style>
-        header {
-            background: linear-gradient(45deg, #1e90ff, #ff69b4, #32cd32, #ffa500);
-            color: white;
-            text-align: center;
-            padding: 30px 20px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-            animation: flash 1.5s infinite, slide 4s infinite alternate ease-in-out;
-            text-shadow: 2px 2px 4px #000;
-        }
-
-        .welcome-text {
-            margin: 0;
-            font-size: 36px;
-            font-family: 'Segoe UI', sans-serif;
-        }
-
-        @keyframes flash {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
-        }
-
-        @keyframes slide {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-8px); }
-        }
-    </style>
-</div>
+    <div class="search-container">
+        <form th:action="@{/user/exams/search}" method="get">
+            <input type="text" name="keyword" placeholder="Tìm kiếm kỳ thi..." th:value="${keyword}">
+            <button type="submit">Tìm kiếm</button>
+        </form>
+    </div>
+</header>
+</body>
+</html>

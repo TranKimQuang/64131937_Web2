@@ -1,26 +1,149 @@
 /* General Body & Container */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f7f6;
     color: #333;
     line-height: 1.6;
-    padding-top: 100px; /* Vẫn giữ padding-top để nội dung không bị header che mất */
-    background: linear-gradient(to bottom, #007bff, #ffffff);
+    padding-top: 20px; /* Đảm bảo padding-top đủ để nội dung không bị header che mất */
+    background-color: #f4f7f6;
 }
+
+/* Các style cho HEADER */
+header.header { /* **QUAN TRỌNG**: Đảm bảo selector là `header.header` để áp dụng cho thẻ header có class "header" */
+    display: flex;
+    justify-content: space-between; /* Đẩy các phần tử sang hai bên */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    padding: 10px 20px;
+    background: white; /* Nền trắng cho header */
+
+    border-bottom: 1px solid #e9ecef;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: fixed; /* Giữ header luôn ở trên cùng */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Đảm bảo header nằm trên các phần tử khác */
+    flex-wrap: nowrap; /* **QUAN TRỌNG**: Ngăn các phần tử trong header bị xuống dòng */
+}
+
+/* Phần chứa logo và nút quản lý */
+.header-left-section {
+    display: flex; /* **QUAN TRỌNG**: Biến thành flex container để sắp xếp logo và nút */
+    align-items: center; /* Căn giữa các mục theo chiều dọc */
+    gap: 20px; /* Khoảng cách giữa logo và nút */
+    flex-shrink: 0; /* Ngăn phần này bị co lại */
+    /* Có thể giới hạn max-width nếu cần để dành chỗ cho search-container */
+    /* max-width: 400px; */
+}
+
+.header-logo {
+    flex-shrink: 0; /* Ngăn logo bị co lại */
+    /* margin-right: 20px; */ /* Đã dùng gap trong header-left-section nên có thể bỏ */
+}
+.header-logo img {
+    height: 60px; /* Đặt chiều cao cố định cho logo */
+    width: auto; /* Duy trì tỉ lệ */
+    max-height: 80px;
+    max-width: 250px; /* Giới hạn chiều rộng tối đa của logo để không chiếm quá nhiều chỗ */
+}
+
+/* Style cho nút "Quản lý Kỳ thi" */
+.header-nav-item .nav-link {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+    padding: 8px 15px;
+    white-space: nowrap; /* **QUAN TRỌNG**: Đảm bảo văn bản không bị xuống dòng */
+    border-radius: 4px;
+    flex-shrink: 0; /* **QUAN TRỌNG**: Ngăn nút này bị co lại */
+    /* background-color: #e9ecef; /* Có thể thêm màu nền để trông nổi bật hơn */
+    /* border: 1px solid #cceeff; */
+}
+
+.header-nav-item .nav-link:hover {
+    color: #0056b3;
+    /* background-color: #d9e2ef; */
+}
+.header-nav-item .nav-link i {
+    margin-right: 8px; /* Khoảng cách giữa icon và chữ */
+}
+
+
+.search-container {
+    display: flex;
+    align-items: center;
+    flex-grow: 1; /* Cho phép container tìm kiếm chiếm không gian còn lại */
+    justify-content: flex-end; /* Đẩy nội dung tìm kiếm sang phải trong chính nó */
+    flex-shrink: 1; /* Cho phép search-container co lại khi cần */
+    min-width: 200px; /* Đảm bảo có chiều rộng tối thiểu để không bị quá nhỏ */
+    margin-left: 20px; /* Khoảng cách giữa phần logo/nút và search */
+}
+.search-container input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    margin-right: 5px;
+    width: 250px; /* Điều chỉnh độ rộng ô tìm kiếm */
+    max-width: 100%;
+    box-sizing: border-box; /* Quan trọng: Đảm bảo padding không làm tăng chiều rộng tổng thể */
+}
+.search-container button {
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    flex-shrink: 0; /* Ngăn nút tìm kiếm bị co lại */
+}
+.search-container button:hover {
+    background-color: #0056b3;
+}
+
+
+
+ /* Các phần còn lại của style.css giữ nguyên */
+ .navbar {
+     padding: 1rem 2rem;
+ }
+
+ .navbar.fixed-top {
+     z-index: 1030;
+ }
+
+ .navbar-brand {
+     font-weight: 700;
+     font-size: 1.75rem;
+     color: #343a40;
+ }
+
+ /* Đảm bảo các nav-link khác không bị ảnh hưởng quá mức nếu có */
+ .nav-link {
+     /* Loại bỏ !important nếu có thể */
+     color: inherit; /* Hoặc màu mặc định mong muốn */
+     margin-left: 1rem;
+     transition: color 0.2s ease-in-out;
+ }
+ /* THÊM DÒNG NÀY ĐỂ ĐẢM BẢO nav-link trong header-nav-item được ưu tiên */
+.header-nav-item .nav-link {
+    color: #007bff; /* Đặt lại màu cho nút quản lý */
+}
+ .nav-link:hover {
+     color: #0d6efd; /* Bỏ !important nếu có thể */
+ }
+
 
 .container {
     background-color: #ffffff;
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    margin-top: 30px;
+    margin-top: 100px; /* Đảm bảo margin-top đủ để nội dung không bị che bởi fixed header */
     margin-bottom: 30px;
-    /* Dùng flexbox để quản lý bố cục theo cột */
     display: flex;
     flex-direction: column;
-    /* Đảm bảo container có chiều cao tối thiểu để pagination có thể "dính" xuống dưới */
-    min-height: calc(100vh - 180px); /* Ví dụ: Chiều cao viewport trừ đi header và margin */
-    /* Bạn có thể điều chỉnh giá trị 180px (tương đương tổng chiều cao của header, margin-top, margin-bottom của container và một chút khoảng trống) */
+    min-height: calc(100vh - 180px);
 }
 
 /* Headings */
@@ -114,48 +237,11 @@ label {
     margin-top: 20px;
     border-radius: 5px;
 }
-header {
-     background-color: #f1f3f5; /* xám nhạt hơn */
-     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-     position: fixed;
-     top: 0;
-     left: 0;
-     width: 100%;
-     padding: 10px;
-     z-index: 1000;
-     }
-
- .navbar {
-     padding: 1rem 2rem;
- }
-
- .navbar.fixed-top {
-     z-index: 1030;
- }
-
- .navbar-brand {
-     font-weight: 700;
-     font-size: 1.75rem;
-     color: #343a40;
- }
-
- .nav-link {
-     font-size: 1.1rem;
-     font-weight: 500;
-     color: white !important;
-     margin-left: 1rem;
-     transition: color 0.2s ease-in-out;
- }
-
- .nav-link:hover {
-     color: #0d6efd !important;
- }
 
 /* Tables */
 .table {
     margin-top: 20px;
-    /* Đảm bảo bảng có thể chiếm hết không gian còn lại nếu cần */
-    flex-grow: 1; /* Cho phép bảng "phình" ra để chiếm không gian trống */
+    flex-grow: 1;
 }
 .table thead th {
     background-color: #007bff;
@@ -175,37 +261,32 @@ header {
 
 /* Pagination */
 .pagination-controls {
-    /* Đây là phần quan trọng nhất để đẩy nó xuống dưới cùng của flex container */
     margin-top: auto;
     text-align: center;
-    padding-top: 20px; /* Khoảng cách giữa bảng và phân trang */
-    padding-bottom: 10px; /* Khoảng cách với đáy container */
-
-    display: flex; /* Bật flexbox cho pagination-controls để căn giữa các nút */
-    justify-content: center; /* Căn giữa các nút phân trang */
+    padding-top: 20px;
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: center;
     align-items: center;
 }
 
 .pagination-controls .pagination {
     margin: 0;
     display: flex;
-    flex-wrap: wrap; /* Cho phép xuống dòng trên màn hình nhỏ */
+    flex-wrap: wrap;
 }
 
-/* Khoảng cách giữa các nút */
 .pagination-controls .page-item {
-    margin: 0 4px; /* Giảm khoảng cách mặc định một chút */
+    margin: 0 4px;
 }
 
-/* Tăng khoảng cách cho nút "Đầu" và "Cuối" */
 .pagination-controls .page-item.first-last-button {
-    margin: 0 15px; /* Tạo khoảng cách lớn hơn */
+    margin: 0 15px;
 }
 
-/* Đảm bảo các nút điều hướng không bị co lại */
 .pagination-controls .page-item .page-link {
-    white-space: nowrap; /* Ngăn chữ bị ngắt dòng */
-    min-width: 40px; /* Đảm bảo chiều rộng tối thiểu cho các nút số */
+    white-space: nowrap;
+    min-width: 40px;
     text-align: center;
 }
 
@@ -217,6 +298,14 @@ header {
     padding: 20px;
     margin-bottom: 20px;
 }
+.answer-list {
+    margin-left: 20px; /* Tăng khoảng cách lề trái */
+    padding-left: 20px; /* Tăng padding bên trong danh sách */
+}
+
+.answer-item {
+    margin-bottom: 10px; /* Khoảng cách giữa các đáp án */
+}
 .answer-group {
     border: 1px solid #e9ecef;
     padding: 10px;
@@ -225,17 +314,17 @@ header {
     background-color: #fff;
     display: flex;
     align-items: center;
-    gap: 10px; /* Khoảng cách giữa input và radio */
+    gap: 10px;
 }
 .answer-group input[type="text"] {
-    flex-grow: 1; /* Cho phép input chiếm phần lớn không gian */
+    flex-grow: 1;
 }
 .answer-group .form-check {
-    margin-right: 15px; /* Đẩy radio sang phải */
-    flex-shrink: 0; /* Ngăn radio bị co lại */
+    margin-right: 15px;
+    flex-shrink: 0;
 }
 .answer-group .btn-danger {
-    margin-left: auto; /* Đẩy nút xóa sang phải cùng */
+    margin-left: auto;
     flex-shrink: 0;
 }
 .form-check-label {

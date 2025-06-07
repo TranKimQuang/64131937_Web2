@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-<div th:replace="fragments/admin_header :: header"></div>
+<div th:replace="~{fragments/user_header :: header}"></div>
 <div class="container">
     <h2 class="mb-4">Danh sách Kỳ thi</h2>
 
@@ -20,7 +20,7 @@
             <input type="text" name="search" th:value="${search}" class="form-control mr-2" placeholder="Tìm kiếm theo tiêu đề">
             <button type="submit" class="btn btn-secondary"><i class="fas fa-search"></i> Tìm kiếm</button>
         </form>
-        <a th:href="@{/admin/exams/create}" class="btn btn-primary"><i class="fas fa-plus-circle"></i> Thêm Kỳ thi mới</a>
+        <a th:href="@{/admin/exams/create}" class="btn btn-primary"><i class="fas fa-plus-circle"></i> Thêm kỳ thi mới</a>
     </div>
 
     <table class="table table-bordered table-striped table-hover mt-3">

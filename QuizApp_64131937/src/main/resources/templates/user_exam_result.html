@@ -5,6 +5,7 @@
     <title>Kết quả bài thi</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
 <div class="container">
@@ -18,19 +19,16 @@
 
     <h3>Chi tiết bài làm</h3>
     <div th:each="detail, stat : ${resultDetails}" class="question-card result-detail-item">
-        <h5>Câu <span th:text="${stat.index + 1}"></span>: <span th:text="${detail.question.content}"></span></h5>
-        <ul class="list-unstyled mt-2">
-            <li th:each="answer : ${detail.question.answers}">
-                <span th:text="${answer.content}"></span>
-                <span th:if="${answer.id == detail.correctAnswer?.id}" class="badge badge-success ml-2">Đáp án đúng</span>
+        <h5 class="answer-list">Câu <span th:text="${stat.index + 1}"></span>: <span th:text="${detail.question.content}"></span></h5>
+        <ul class="list-unstyled mt-2 answer-list">
+            <li th:each="answer, statAnswer : ${detail.question.answers}" class="answer-item">
+                <span th:text="'(' + (${statAnswer.index + 1}) + ') ' + ${answer.content}"></span>
                 <span th:if="${answer.id == detail.submittedAnswer?.id}" class="badge badge-primary ml-2">Bạn đã chọn</span>
+                <span th:if="${answer.id == detail.correctAnswer?.id}" class="badge badge-success ml-2">Đáp án đúng</span>
+
             </li>
         </ul>
         <div th:if="${detail.submittedAnswer == null}" class="alert alert-warning p-2">Bạn chưa trả lời câu này.</div>
-        <div th:unless="${detail.submittedAnswer == null}">
-            <p>Đáp án của bạn: <span th:text="${detail.submittedAnswer.content}" th:classappend="${detail.isCorrect ? 'correct-answer' : 'wrong-answer'}"></span></p>
-            <p th:if="${!detail.isCorrect}">Đáp án đúng: <span th:text="${detail.correctAnswer.content}" class="correct-answer"></span></p>
-        </div>
     </div>
 
     <a th:href="@{/user/exams}" class="btn btn-primary mt-4">Quay lại danh sách kỳ thi</a>

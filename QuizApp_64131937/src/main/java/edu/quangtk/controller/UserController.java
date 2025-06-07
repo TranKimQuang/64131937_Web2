@@ -50,7 +50,18 @@ public class UserController {
         model.addAttribute("questions", questions);
         return "user_take_exam";
     }
-
+    @GetMapping("/exams/search")
+    public String searchExams(@RequestParam(name = "keyword", required = false) String keyword, Model model) {
+        List<Exam> foundExams;
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            foundExams = examService.searchExamsByTitle(keyword.trim());
+        } else {
+            foundExams = examService.findAllExams();
+        }
+        model.addAttribute("exams", foundExams);
+        model.addAttribute("keyword", keyword);
+        return "user_exam_list";
+    }
     @PostMapping("/submit-exam/{examId}")
     public String submitExam(@PathVariable Long examId,
                              @RequestParam Map<String, String> allRequestParams,

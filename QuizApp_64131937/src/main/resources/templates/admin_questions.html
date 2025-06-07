@@ -6,9 +6,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script th:src="@{/js/tinymce/tinymce.min.js}"></script>
 </head>
 <body>
-<div th:replace="fragments/admin_header :: header"></div>
+<div th:replace="~{fragments/user_header :: header}"></div>
 <div class="container">
     <h2 class="mb-4">Thêm Câu hỏi cho Kỳ thi: <span th:text="${currentExam.title}"></span></h2>
     <a th:href="@{/admin/exams}" class="btn btn-secondary mb-3">
@@ -79,6 +80,14 @@
         </button>
     </form>
 </div>
-<script th:src="@{/js/main.js}"></script>
+<script>
+    tinymce.init({
+        selector: '#questionContent', // ID của textarea nội dung câu hỏi
+        plugins: 'anchor autolink charmap codesample emoticons link lists searchreplace visualblocks wordcount table image',
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bulllist indent outdent | emoticons charmap | removeformat',
+        height: 400, // Chiều cao của editor
+        menubar: true, // Hiển thị thanh menu
+    });
+</script>
 </body>
 </html>

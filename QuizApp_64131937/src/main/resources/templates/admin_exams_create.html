@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-<div th:replace="fragments/admin_header :: header"></div>
+<div th:replace="~{fragments/user_header :: header}"></div>
 <div class="container">
     <h2 class="mb-4">Tạo Kỳ thi mới</h2>
 
@@ -32,5 +32,17 @@
         <a th:href="@{/admin/exams}" class="btn btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i> Quay lại danh sách</a>
     </form>
 </div>
+
+<script th:src="@{/js/tinymce/tinymce.min.js}"></script>
+<script>
+    tinymce.init({
+        selector: '#description', // Đây là ID của textarea bạn muốn biến thành rich text editor
+        plugins: 'anchor autolink charmap codesample emoticons link lists searchreplace visualblocks wordcount',
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        height: 300, // Chiều cao của editor
+        menubar: true // Hiển thị thanh menu
+    });
+</script>
+
 </body>
 </html>

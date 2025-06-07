@@ -38,4 +38,7 @@ public class ExamService {
     }
     return examRepository.findAll(pageable);
   }
+  public List<Exam> searchExamsByTitle(String keyword) {
+    return examRepository.findByTitleContainingIgnoreCase(keyword);
+  }
 }
