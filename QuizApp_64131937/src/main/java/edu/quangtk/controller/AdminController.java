@@ -33,7 +33,7 @@ public class AdminController {
     @GetMapping("/exams")
     public String listExams(Model model,
                             @RequestParam(defaultValue = "0") int page,
-                            @RequestParam(defaultValue = "10") int size,
+                            @RequestParam(defaultValue = "5") int size,
                             @RequestParam(defaultValue = "id") String sortBy,
                             @RequestParam(defaultValue = "asc") String sortDir,
                             @RequestParam(required = false) String search) {
@@ -43,13 +43,13 @@ public class AdminController {
         Page<Exam> examPage = examService.findExams(search, pageable);
 
         model.addAttribute("exams", examPage.getContent());
-        model.addAttribute("currentPage", examPage.getNumber());
-        model.addAttribute("totalPages", examPage.getTotalPages());
-        model.addAttribute("totalItems", examPage.getTotalElements());
-        model.addAttribute("pageSize", size);
-        model.addAttribute("sortBy", sortBy);
-        model.addAttribute("sortDir", sortDir);
-        model.addAttribute("search", search);
+        model.addAttribute("currentPage", examPage.getNumber()); // Trang hiện tại (0-based)
+        model.addAttribute("totalPages", examPage.getTotalPages()); // Tổng số trang
+        model.addAttribute("totalItems", examPage.getTotalElements()); // Tổng số bản ghi
+        model.addAttribute("pageSize", size); // Kích thước trang
+        model.addAttribute("sortBy", sortBy); // Trường sắp xếp
+        model.addAttribute("sortDir", sortDir); // Hướng sắp xếp
+        model.addAttribute("search", search != null ? search : ""); // Giá trị tìm kiếm
 
         return "admin_exams_list";
     }
@@ -97,7 +97,7 @@ public class AdminController {
     @GetMapping("/questions/{examId}")
     public String manageQuestionsByExam(@PathVariable Long examId, Model model,
                                         @RequestParam(defaultValue = "0") int page,
-                                        @RequestParam(defaultValue = "10") int size,
+                                        @RequestParam(defaultValue = "5") int size,
                                         @RequestParam(defaultValue = "id") String sortBy,
                                         @RequestParam(defaultValue = "asc") String sortDir,
                                         @RequestParam(required = false) String search) {

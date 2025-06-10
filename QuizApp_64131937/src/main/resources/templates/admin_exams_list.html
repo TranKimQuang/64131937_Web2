@@ -30,7 +30,7 @@
             <th><a th:href="@{/admin/exams(page=${currentPage}, size=${pageSize}, sortBy='title', sortDir=${sortDir == 'asc' ? 'desc' : 'asc'}, search=${search})}">Tiêu đề <i class="fas fa-sort"></i></a></th>
             <th>Mô tả</th>
             <th>Thời lượng (phút)</th>
-            <th>Thời gian bắt đầu</th>
+            <th>Bài thi được tạo lúc: </th>
             <th>Hành động</th>
         </tr>
         </thead>
@@ -38,7 +38,7 @@
         <tr th:each="exam : ${exams}">
             <td th:text="${exam.id}"></td>
             <td th:text="${exam.title}"></td>
-            <td th:text="${exam.description}"></td>
+            <td th:utext="${exam.description}"></td>
             <td th:text="${exam.durationMinutes}"></td>
             <td th:text="${#temporals.format(exam.startTime, 'dd-MM-yyyy HH:mm')}"></td>
             <td class="d-flex align-items-center">

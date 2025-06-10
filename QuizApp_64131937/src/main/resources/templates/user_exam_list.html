@@ -22,10 +22,10 @@
             <div class="card h-100">
                 <div class="card-body">
                     <h5 class="card-title text-primary" th:text="${exam.title}"></h5>
-                    <p class="card-text text-muted" th:text="${exam.description}"></p>
+                    <p class="card-text text-muted" th:utext="${exam.description}"></p>
                     <ul class="list-unstyled mb-0 small text-secondary">
                         <li>Thời lượng: <strong th:text="${exam.durationMinutes}"></strong> phút</li>
-                        <li>Thời gian bắt đầu: <strong th:text="${#temporals.format(exam.startTime, 'dd-MM-yyyy HH:mm')}"></strong></li>
+                        <li>Bài thi được tạo lúc: <strong th:text="${#temporals.format(exam.startTime, 'dd-MM-yyyy HH:mm')}"></strong></li>
                     </ul>
                 </div>
                 <div class="card-footer bg-white border-top-0">

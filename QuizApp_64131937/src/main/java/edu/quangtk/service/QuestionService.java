@@ -43,7 +43,7 @@ public class QuestionService {
                 answer.setQuestion(savedQuestion);
             }
             // Xóa các đáp án cũ nếu có trước khi lưu mới (cho trường hợp chỉnh sửa)
-            if (question.getId() != null) { // Nếu là chỉnh sửa câu hỏi
+            if (question.getId() != null) {
                 answerRepository.deleteAll(answerRepository.findByQuestionId(savedQuestion.getId()));
             }
             answerRepository.saveAll(question.getAnswers());
